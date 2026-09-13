@@ -187,6 +187,226 @@ createServer(async (req, res) => {
     }
   }
 
+  // ==========================================================================
+  // SECURE ARENA ANSWER VERIFICATION (SERVER-SIDE ONLY - ZERO FRONTEND LEAKS)
+  // ==========================================================================
+  const SECRETS = {
+    'card-hunt': ['clock', 'tower', 'clocktower', 'glasscorridor', 'corridor', 'northtower', 'belltower', 'clock tower', 'north tower'],
+    'diamonds': {
+      'ORBIT': { answer: '11', clue: 'Clue Card 11 · Caesar cipher', reveal: 'The encrypted transmission points to NOVA.', next: 'NOVA', genuine: true },
+      'NOVA': { answer: '34', clue: 'Clue Card 34 · Sequence cipher', reveal: '2, 6, 12, 20, 30… gives 42. Shift LUSJEH back 16 places to get VECTOR.', next: 'VECTOR', genuine: true },
+      'VECTOR': { answer: '18', clue: 'Clue Card 18 · Rearrangement', reveal: 'U–2, E–5, P–1, S–4, L–3 resolves to PULSE.', next: 'PULSE', genuine: true },
+      'PULSE': { answer: '27', clue: 'Clue Card 27 · Binary', reveal: '01000101 01000011 01001111 translates to ECHO.', next: 'ECHO', genuine: true },
+      'ECHO': { answer: '45', clue: 'Clue Card 45 · Find me', reveal: 'A five-letter word: no A, middle letter I, first not a vowel: PRISM.', next: 'PRISM', genuine: true },
+      'PRISM': { answer: '16', clue: 'Clue Card 16 · Final revelation', reveal: 'One of four suits. Its symbol is both a geometric shape and a playing-card suit: DIAMOND.', next: 'DIAMOND', genuine: true, final: true },
+      'COSMOS': { answer: '34', genuine: false, reveal: 'Dead end: Signal dissolves into cosmic noise.' },
+      'HELIOS': { answer: '36', genuine: false, reveal: 'Decoy alert: Solar frequency does not correlate with the suit.' },
+      'SPECTRA': { answer: '25', genuine: false, reveal: 'Decoy: False spectrum detected.' },
+      'VORTEX': { answer: '16', genuine: false, reveal: 'Decoy: Swallowed by anomaly.' },
+      'MATRIX': { answer: '40', genuine: false, reveal: 'Decoy: Matrix parity error.' },
+      'QUANTUM': { answer: '20', genuine: false, reveal: 'Decoy: State collapsed.' },
+      'CIPHER': { answer: '10', genuine: false, reveal: 'Decoy: Key is invalid.' },
+      'ZENITH': { answer: '56', genuine: false, reveal: 'Decoy: Elevation out of bounds.' },
+      'RADAR': { answer: '16', genuine: false, reveal: 'Decoy: Ghost echo on sweep.' },
+      'FUSION': { answer: '15', genuine: false, reveal: 'Decoy: Reaction destabilized.' },
+      'HORIZON': { answer: '40', genuine: false, reveal: 'Decoy: Nothing beyond the curve.' },
+      'QUARK': { answer: '30', genuine: false, reveal: 'Decoy: Charge unbalanced.' },
+      'NEBULA': { answer: '42', genuine: false, reveal: 'Decoy: Obscured in cloud dust.' },
+      'ECLIPSE': { answer: '27', genuine: false, reveal: 'Decoy: Total occultation.' },
+      'APEX': { answer: '18', genuine: false, reveal: 'Decoy: Vector misalignment.' },
+      'NEXUS': { answer: '24', genuine: false, reveal: 'Decoy: Loop terminated without suit output.' }
+    },
+    'hearts': {
+      arrangement: [
+        { p: 'Vikram', o: 'Key', g: 'Ruby', n: 8 },
+        { p: 'Meera', o: 'Watch', g: 'Emerald', n: 5 },
+        { p: 'Aarav', o: 'Ring', g: 'Pearl', n: 1 },
+        { p: 'Diya', o: 'Coin', g: 'Sapphire', n: 18 },
+        { p: 'Rohan', o: 'Locket', g: 'Topaz', n: 20 }
+      ],
+      trust: ['TRUE', 'TRUE', 'FALSE', 'TRUE', 'FALSE']
+    },
+    'spades': {
+      steps: [
+        ['reception', 'reception area', 'main desk', 'front desk'],
+        ['error log', 'log', 'error message', 'logs'],
+        ['three statues', 'statues', 'statue', 'the three statues'],
+        ['1342', '1,3,4,2', '1-3-4-2', '1 3 4 2']
+      ],
+      master: 'SPADE'
+    },
+    'clubs': {
+      order: 'SCAN|BRIEF|RELAY|EXECUTE',
+      freq: 72,
+      tactical: 'verify'
+    },
+    'joker': {
+      story: { q1: 'yellow', q2: '15', q3: '3', q4: '6' },
+      finalCode: '1536'
+    }
+  };
+
+  if (url.pathname === '/api/verify' && req.method === 'POST') {
+    let raw = '';
+    for await (const chunk of req) raw += chunk;
+    try {
+      const body = JSON.parse(raw);
+      const round = String(body.round || '').trim();
+      const teamName = String(body.teamName || '').trim();
+
+      // 1. CARD HUNT
+      if (round === 'card-hunt') {
+        const answer = String(body.answer || '').trim().toLowerCase().replace(/[\s\-_]/g, '');
+        const match = SECRETS['card-hunt'].some(v => v.replace(/[\s\-_]/g, '') === answer);
+        if (match) {
+          if (teamName) await updateProgress(teamName, 'card-hunt', Math.floor(Date.now() / 1000));
+          return json(res, 200, { ok: true, message: 'COORDINATES VERIFIED' });
+        }
+        return json(res, 200, { ok: false, error: 'Station cipher incorrect. Reread the riddle: "Where north meets the tower..."' });
+      }
+
+      // 2. DIAMONDS
+      if (round === 'diamonds') {
+        const cardKey = String(body.card || '').trim().toUpperCase();
+        const inputAnswer = String(body.answer || '').trim();
+        const cardSecret = SECRETS['diamonds'][cardKey];
+
+        if (!cardSecret) {
+          return json(res, 404, { ok: false, error: 'Unknown challenge card.' });
+        }
+
+        if (cardSecret.answer === inputAnswer) {
+          if (cardSecret.final && teamName) {
+            await updateProgress(teamName, 'diamonds', Math.floor(Date.now() / 1000));
+          }
+          return json(res, 200, {
+            ok: true,
+            genuine: cardSecret.genuine,
+            reveal: cardSecret.reveal,
+            clue: cardSecret.clue,
+            next: cardSecret.next,
+            final: Boolean(cardSecret.final)
+          });
+        }
+        return json(res, 200, { ok: false, error: 'Incorrect calculation. Check operator precedence: ▲ (+) ● (×) ■ (-) ★ (÷)' });
+      }
+
+      // 3. HEARTS - GRID
+      if (round === 'hearts-grid') {
+        const { arrangement } = body;
+        if (!Array.isArray(arrangement) || arrangement.length !== 5) {
+          return json(res, 200, { ok: false, error: 'All 5 seats must be assigned.' });
+        }
+
+        const correctArr = SECRETS['hearts'].arrangement;
+        const arrMatch = correctArr.every((expected, idx) => {
+          const userSeat = arrangement[idx];
+          return userSeat &&
+            userSeat.p?.toLowerCase() === expected.p.toLowerCase() &&
+            userSeat.o?.toLowerCase() === expected.o.toLowerCase() &&
+            userSeat.g?.toLowerCase() === expected.g.toLowerCase();
+        });
+
+        if (!arrMatch) {
+          return json(res, 200, { ok: false, error: 'Arrangement conflict. Check seat clues (e.g. Ruby+Locket=6, Topaz & Key at opposite ends).' });
+        }
+
+        return json(res, 200, { ok: true, message: 'Arrangement verified!' });
+      }
+
+      // 3B. HEARTS - TRUST CHECK
+      if (round === 'hearts-trust') {
+        const { answers } = body;
+        const expected = SECRETS['hearts'].trust;
+        if (!Array.isArray(answers) || answers.length !== expected.length) {
+          return json(res, 200, { ok: false, error: 'All trust questions must be answered.' });
+        }
+
+        const passed = expected.every((val, idx) => String(answers[idx]).toUpperCase() === val);
+        if (!passed) {
+          return json(res, 200, { ok: false, error: 'Trust check failed. Recheck the statements against the 5-seat arrangement.' });
+        }
+
+        if (teamName) await updateProgress(teamName, 'hearts', Math.floor(Date.now() / 1000));
+        return json(res, 200, { ok: true, message: 'HEART SIGNAL EARNED' });
+      }
+
+      // 4. SPADES - STEP
+      if (round === 'spades-step') {
+        const stepIdx = Number(body.stepIdx);
+        const answer = String(body.answer || '').trim().toLowerCase().replace(/[\s\-_,]/g, '');
+        const expectedList = SECRETS['spades'].steps[stepIdx];
+
+        if (expectedList && expectedList.some(exp => exp.replace(/[\s\-_,]/g, '') === answer)) {
+          return json(res, 200, { ok: true, message: 'Waypoint signal accepted.' });
+        }
+        return json(res, 200, { ok: false, error: 'Incorrect waypoint signal. Verify landmark clues.' });
+      }
+
+      // 4B. SPADES - MASTER WORD
+      if (round === 'spades-master') {
+        const word = String(body.word || '').trim().toUpperCase();
+        if (word === SECRETS['spades'].master) {
+          if (teamName) await updateProgress(teamName, 'spades', Math.floor(Date.now() / 1000));
+          return json(res, 200, { ok: true, message: 'SPADE SIGNAL EARNED' });
+        }
+        return json(res, 200, { ok: false, error: 'Incorrect master word. Combine keys P, S, A, D, E.' });
+      }
+
+      // 5. CLUBS
+      if (round === 'clubs-order') {
+        const order = String(body.order || '').trim().toUpperCase();
+        if (order === SECRETS['clubs'].order) {
+          return json(res, 200, { ok: true, message: 'Order verified.' });
+        }
+        return json(res, 200, { ok: false, error: 'Sequence conflict. Re-read the 3 relay rules.' });
+      }
+
+      if (round === 'clubs-signal') {
+        const freq = Number(body.freq);
+        const tactical = String(body.tactical || '').trim().toLowerCase();
+
+        if (freq !== SECRETS['clubs'].freq) {
+          return json(res, 200, { ok: false, error: `Harmonic tuner misaligned. Target is 72 MHz (currently ${freq} MHz).` });
+        }
+        if (tactical !== SECRETS['clubs'].tactical) {
+          return json(res, 200, { ok: false, error: 'Protocol rejected. Accuracy must be protected under pressure.' });
+        }
+
+        if (teamName) await updateProgress(teamName, 'clubs', Math.floor(Date.now() / 1000));
+        return json(res, 200, { ok: true, message: 'CLUB SIGNAL EARNED' });
+      }
+
+      // 6. JOKER
+      if (round === 'joker-story') {
+        const { q1, q2, q3, q4 } = body;
+        const s = SECRETS['joker'].story;
+        if (
+          String(q1 || '').trim().toLowerCase() === s.q1 &&
+          String(q2 || '').trim() === s.q2 &&
+          String(q3 || '').trim() === s.q3 &&
+          String(q4 || '').trim() === s.q4
+        ) {
+          return json(res, 200, { ok: true, message: 'Story recall verified.' });
+        }
+        return json(res, 200, { ok: false, error: 'Memory discrepancy detected. Re-verify the details.' });
+      }
+
+      if (round === 'joker-final') {
+        const code = String(body.code || '').trim();
+        if (code === SECRETS['joker'].finalCode) {
+          if (teamName) await updateProgress(teamName, 'joker', Math.floor(Date.now() / 1000));
+          return json(res, 200, { ok: true, message: 'PARADOX CONQUERED' });
+        }
+        return json(res, 200, { ok: false, error: 'Invalid escape code. Verify notebook records.' });
+      }
+
+      return json(res, 400, { ok: false, error: 'Unknown verification round.' });
+    } catch {
+      return json(res, 400, { ok: false, error: 'Malformed verification request.' });
+    }
+  }
+
   // Update trial progress / badge
   if (url.pathname === '/api/progress' && req.method === 'POST') {
     let raw = '';

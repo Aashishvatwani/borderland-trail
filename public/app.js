@@ -1,6 +1,67 @@
 // Borderland Trail — IEEE Multi-Round Challenge Engine
 // Mario Roudil Style Page Transitions & Strict Level-by-Level Progression System
 
+// ==========================================================================
+// ARENA INTEGRITY & ANTI-CHEAT SHIELD (BLOCKS F12, INSPECT & VIEW-SOURCE)
+// ==========================================================================
+(() => {
+  // 1. Disable Right Click Context Menu
+  document.addEventListener('contextmenu', e => {
+    e.preventDefault();
+    if (typeof showToast === 'function') {
+      showToast('⚠️ ARENA DEFENSE: Context menu is disabled during the live trial!');
+    }
+    return false;
+  }, false);
+
+  // 2. Intercept DevTools & Source Inspection Keyboard Shortcuts
+  window.addEventListener('keydown', e => {
+    const isCtrl = e.ctrlKey || e.metaKey;
+
+    // F12 (Inspect)
+    if (e.key === 'F12' || e.keyCode === 123) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof showToast === 'function') {
+        showToast('⚠️ ARENA DEFENSE: Developer tools are disabled during live arena!');
+      }
+      return false;
+    }
+
+    // Ctrl+Shift+I (DevTools), Ctrl+Shift+J (Console), Ctrl+Shift+C (Inspect Element)
+    if (isCtrl && e.shiftKey && ['I', 'J', 'C', 'i', 'j', 'c'].includes(e.key)) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof showToast === 'function') {
+        showToast('⚠️ ARENA DEFENSE: Inspector shortcut intercepted!');
+      }
+      return false;
+    }
+
+    // Ctrl+U (View Source), Ctrl+S (Save Page)
+    if (isCtrl && ['u', 'U', 's', 'S'].includes(e.key)) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof showToast === 'function') {
+        showToast('⚠️ ARENA DEFENSE: Source view is disabled!');
+      }
+      return false;
+    }
+  }, true);
+
+  // 3. Suppress inspection via Console warning
+  if (typeof console !== 'undefined') {
+    console.log(
+      '%c⚠️ BORDERLAND TRAIL // IEEE ARENA ACTIVE',
+      'color:#ffb703; font-size:18px; font-weight:900; text-shadow:0 0 10px #ffb703;'
+    );
+    console.log(
+      '%cAll round answers execute with server-side validation authority. Solution snooping is strictly prohibited and logged.',
+      'color:#94a3b8; font-size:12px;'
+    );
+  }
+})();
+
 // --- Audio Synthesizer (Web Audio API) ---
 class SoundSynth {
   constructor() {
@@ -251,6 +312,20 @@ async function awardBadge(suit) {
       body: JSON.stringify({ teamName: currentTeam, suit, timeSeconds: Math.floor(Date.now() / 1000) })
     });
   } catch {}
+}
+
+// Secure Server-Side Answer Verification Client
+async function verifyAnswerWithServer(round, payload = {}) {
+  try {
+    const res = await fetch('/api/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ round, teamName: currentTeam, ...payload })
+    });
+    return await res.json();
+  } catch (e) {
+    return { ok: false, error: 'Connection error. Check network link.' };
+  }
 }
 
 // --- Page Transition Engine (Mario Roudil List Transition) ---
@@ -1204,12 +1279,15 @@ function renderCardHuntView() {
   `;
 
   const huntForm = document.querySelector('#huntForm');
-  huntForm?.addEventListener('submit', e => {
+  huntForm?.addEventListener('submit', async e => {
     e.preventDefault();
-    const val = document.querySelector('#huntInput').value.trim().toLowerCase().replace(/[^a-z]/g, '');
+    const val = document.querySelector('#huntInput').value.trim();
     const feedback = document.querySelector('#huntFeedback');
+    feedback.innerHTML = '<span style="color:var(--text-dim);">Connecting to satellite relay...</span>';
 
-    if (['clock', 'tower', 'clocktower', 'glasscorridor', 'corridor', 'northtower'].includes(val)) {
+    const result = await verifyAnswerWithServer('card-hunt', { answer: val });
+
+    if (result.ok) {
       audio.play('success');
       clearLevel('card-hunt');
       feedback.innerHTML = `
@@ -1224,7 +1302,7 @@ function renderCardHuntView() {
       `;
     } else {
       audio.play('error');
-      feedback.innerHTML = `<span style="color:var(--heart);">Station cipher incorrect. Reread the riddle: "Where north meets the tower..."</span>`;
+      feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Station cipher incorrect.'}</span>`;
     }
   });
 }
@@ -1234,27 +1312,27 @@ function renderCardHuntView() {
 // --------------------------------------------------------------------------
 const diamondCards = [
   // 6 genuine path cards
-  { card: 'ORBIT', expression: '[(18 ▲ 6) ★ 3] ● 2 ■ 5', answer: '11', clue: 'Clue Card 11 · Caesar cipher', reveal: 'The encrypted transmission points to NOVA.', next: 'NOVA', genuine: true },
-  { card: 'NOVA', expression: '[((20 ● 5) ■ 16) ★ 4] ▲ 13', answer: '34', clue: 'Clue Card 34 · Sequence cipher', reveal: '2, 6, 12, 20, 30… gives 42. Shift LUSJEH back 16 places to get VECTOR.', next: 'VECTOR', genuine: true },
-  { card: 'VECTOR', expression: '[(((45 ■ 9) ★ 4) ● 3) ▲ 6] ■ 15', answer: '18', clue: 'Clue Card 18 · Rearrangement', reveal: 'U–2, E–5, P–1, S–4, L–3 resolves to PULSE.', next: 'PULSE', genuine: true },
-  { card: 'PULSE', expression: '[(28 ▲ 14) ★ 7] ● 5 ■ 3', answer: '27', clue: 'Clue Card 27 · Binary', reveal: '01000101 01000011 01001111 translates to ECHO.', next: 'ECHO', genuine: true },
-  { card: 'ECHO', expression: '[(16 ● 6) ■ 24] ★ 4 ▲ 27', answer: '45', clue: 'Clue Card 45 · Find me', reveal: 'A five-letter word: no A, middle letter I, first not a vowel: PRISM.', next: 'PRISM', genuine: true },
-  { card: 'PRISM', expression: '[(((54 ▲ 18) ★ 9) ● 4) ■ 20] ▲ 4', answer: '16', clue: 'Clue Card 16 · Final revelation', reveal: 'One of four suits. Its symbol is both a geometric shape and a playing-card suit: DIAMOND.', next: 'DIAMOND', genuine: true },
+  { card: 'ORBIT', expression: '[(18 ▲ 6) ★ 3] ● 2 ■ 5', clue: 'Clue Card 11 · Caesar cipher', genuine: true },
+  { card: 'NOVA', expression: '[((20 ● 5) ■ 16) ★ 4] ▲ 13', clue: 'Clue Card 34 · Sequence cipher', genuine: true },
+  { card: 'VECTOR', expression: '[(((45 ■ 9) ★ 4) ● 3) ▲ 6] ■ 15', clue: 'Clue Card 18 · Rearrangement', genuine: true },
+  { card: 'PULSE', expression: '[(28 ▲ 14) ★ 7] ● 5 ■ 3', clue: 'Clue Card 27 · Binary', genuine: true },
+  { card: 'ECHO', expression: '[(16 ● 6) ■ 24] ★ 4 ▲ 27', clue: 'Clue Card 45 · Find me', genuine: true },
+  { card: 'PRISM', expression: '[(((54 ▲ 18) ★ 9) ● 4) ■ 20] ▲ 4', clue: 'Clue Card 16 · Final revelation', genuine: true },
   // 14 Decoy cards
-  { card: 'COSMOS', expression: '(14 ▲ 7) ● 2 ■ 8', answer: '34', clue: 'Decoy 01', reveal: 'Dead end: Signal dissolves into cosmic noise.', genuine: false },
-  { card: 'HELIOS', expression: '[(30 ★ 5) ▲ 12] ● 2', answer: '36', clue: 'Decoy 02', reveal: 'Decoy alert: Solar frequency does not correlate with the suit.', genuine: false },
-  { card: 'SPECTRA', expression: '[(40 ■ 10) ★ 3] ▲ 15', answer: '25', clue: 'Decoy 03', reveal: 'Decoy: False spectrum detected.', genuine: false },
-  { card: 'VORTEX', expression: '(25 ● 2) ■ 18 ★ 2', answer: '16', clue: 'Decoy 04', reveal: 'Decoy: Swallowed by anomaly.', genuine: false },
-  { card: 'MATRIX', expression: '[(12 ▲ 8) ● 3] ■ 20', answer: '40', clue: 'Decoy 05', reveal: 'Decoy: Matrix parity error.', genuine: false },
-  { card: 'QUANTUM', expression: '[(60 ★ 4) ▲ 9] ■ 4', answer: '20', clue: 'Decoy 06', reveal: 'Decoy: State collapsed.', genuine: false },
-  { card: 'CIPHER', expression: '(15 ● 3) ■ 15 ★ 3', answer: '10', clue: 'Decoy 07', reveal: 'Decoy: Key is invalid.', genuine: false },
-  { card: 'ZENITH', expression: '[(22 ▲ 18) ★ 5] ● 7', answer: '56', clue: 'Decoy 08', reveal: 'Decoy: Elevation out of bounds.', genuine: false },
-  { card: 'RADAR', expression: '[(50 ■ 20) ★ 6] ▲ 11', answer: '16', clue: 'Decoy 09', reveal: 'Decoy: Ghost echo on sweep.', genuine: false },
-  { card: 'FUSION', expression: '(8 ● 6) ▲ 12 ★ 4', answer: '15', clue: 'Decoy 10', reveal: 'Decoy: Reaction destabilized.', genuine: false },
-  { card: 'HORIZON', expression: '[(36 ★ 6) ▲ 14] ● 2', answer: '40', clue: 'Decoy 11', reveal: 'Decoy: Nothing beyond the curve.', genuine: false },
-  { card: 'QUARK', expression: '(9 ▲ 9) ● 2 ■ 6', answer: '30', clue: 'Decoy 12', reveal: 'Decoy: Charge unbalanced.', genuine: false },
-  { card: 'NEBULA', expression: '[(48 ★ 8) ● 5] ▲ 12', answer: '42', clue: 'Decoy 13', reveal: 'Decoy: Obscured in cloud dust.', genuine: false },
-  { card: 'ECLIPSE', expression: '[(70 ■ 14) ★ 7] ▲ 19', answer: '27', clue: 'Decoy 14', reveal: 'Decoy: Total occultation.', genuine: false }
+  { card: 'COSMOS', expression: '(14 ▲ 7) ● 2 ■ 8', clue: 'Decoy 01', genuine: false },
+  { card: 'HELIOS', expression: '[(30 ★ 5) ▲ 12] ● 2', clue: 'Decoy 02', genuine: false },
+  { card: 'SPECTRA', expression: '[(40 ■ 10) ★ 3] ▲ 15', clue: 'Decoy 03', genuine: false },
+  { card: 'VORTEX', expression: '(25 ● 2) ■ 18 ★ 2', clue: 'Decoy 04', genuine: false },
+  { card: 'MATRIX', expression: '[(12 ▲ 8) ● 3] ■ 20', clue: 'Decoy 05', genuine: false },
+  { card: 'QUANTUM', expression: '[(60 ★ 4) ▲ 9] ■ 4', clue: 'Decoy 06', genuine: false },
+  { card: 'CIPHER', expression: '(15 ● 3) ■ 15 ★ 3', clue: 'Decoy 07', genuine: false },
+  { card: 'ZENITH', expression: '[(22 ▲ 18) ★ 5] ● 7', clue: 'Decoy 08', genuine: false },
+  { card: 'RADAR', expression: '[(50 ■ 20) ★ 6] ▲ 11', clue: 'Decoy 09', genuine: false },
+  { card: 'FUSION', expression: '(8 ● 6) ▲ 12 ★ 4', clue: 'Decoy 10', genuine: false },
+  { card: 'HORIZON', expression: '[(36 ★ 6) ▲ 14] ● 2', clue: 'Decoy 11', genuine: false },
+  { card: 'QUARK', expression: '(9 ▲ 9) ● 2 ■ 6', clue: 'Decoy 12', genuine: false },
+  { card: 'NEBULA', expression: '[(48 ★ 8) ● 5] ▲ 12', clue: 'Decoy 13', genuine: false },
+  { card: 'ECLIPSE', expression: '[(70 ■ 14) ★ 7] ▲ 19', clue: 'Decoy 14', genuine: false }
 ];
 
 function renderDiamondsView() {
@@ -1349,17 +1427,20 @@ function renderDiamondsView() {
       e.preventDefault();
       const ans = document.querySelector('#diamondInput').value.trim();
       const feedback = document.querySelector('#diamondFeedback');
+      feedback.innerHTML = '<span style="color:var(--text-dim);">Validating cipher on server...</span>';
 
-      if (ans === item.answer) {
+      const result = await verifyAnswerWithServer('diamonds', { card: item.card, answer: ans });
+
+      if (result.ok) {
         audio.play('success');
-        if (item.genuine) {
-          if (isFinal) {
+        if (result.genuine) {
+          if (result.final) {
             clearLevel('diamonds');
             await awardBadge('diamonds');
             feedback.innerHTML = `
               <div style="color:var(--club); background:rgba(80,250,158,0.1); padding:1rem; border-radius:4px; border:1px solid var(--club);">
                 <strong>✓ LEVEL 03 CLEARED! ♦ DIAMOND SIGNAL EARNED!</strong><br>
-                ${item.reveal}<br>
+                ${result.reveal}<br>
                 <strong>Level 04: ♥ Hearts Trial is now unlocked!</strong>
                 <div style="margin-top:0.75rem;">
                   <a href="#/hearts" class="cyber-btn" style="background:var(--heart); color:#fff;" data-nav>ADVANCE TO LEVEL 04 (♥ HEARTS) ↗</a>
@@ -1367,12 +1448,12 @@ function renderDiamondsView() {
               </div>
             `;
           } else {
-            const nextIdx = diamondCards.findIndex(c => c.card === item.next);
+            const nextIdx = diamondCards.findIndex(c => c.card === result.next);
             feedback.innerHTML = `
               <div style="color:var(--club); margin-top:0.5rem;">
-                ✓ Correct! ${item.clue}: ${item.reveal}
+                ✓ Correct! ${result.clue}: ${result.reveal}
                 <div style="margin-top:0.5rem;">
-                  <button type="button" class="cyber-btn" id="btnNextDiamond" style="padding:0.4rem 0.8rem; font-size:0.75rem;">NEXT CARD (${item.next}) ↗</button>
+                  <button type="button" class="cyber-btn" id="btnNextDiamond" style="padding:0.4rem 0.8rem; font-size:0.75rem;">NEXT CARD (${result.next}) ↗</button>
                 </div>
               </div>
             `;
@@ -1382,11 +1463,11 @@ function renderDiamondsView() {
             });
           }
         } else {
-          feedback.innerHTML = `<span style="color:var(--joker);">${item.reveal} (Decoy cleared). Return to the genuine trail.</span>`;
+          feedback.innerHTML = `<span style="color:var(--joker);">${result.reveal} (Decoy cleared). Return to the genuine trail.</span>`;
         }
       } else {
         audio.play('error');
-        feedback.innerHTML = `<span style="color:var(--heart);">Incorrect calculation. Check operator precedence: ▲ (+) ● (×) ■ (-) ★ (÷)</span>`;
+        feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Incorrect calculation. Check operator precedence: ▲ (+) ● (×) ■ (-) ★ (÷)'}</span>`;
       }
     });
   }
@@ -1432,14 +1513,7 @@ const heartEnvelopes = [
   }
 ];
 
-const heartCorrectArrangement = [
-  { p: 'Vikram', o: 'Key', g: 'Ruby', n: 8 },
-  { p: 'Meera', o: 'Watch', g: 'Emerald', n: 5 },
-  { p: 'Aarav', o: 'Ring', g: 'Pearl', n: 1 },
-  { p: 'Diya', o: 'Coin', g: 'Sapphire', n: 18 },
-  { p: 'Rohan', o: 'Locket', g: 'Topaz', n: 20 }
-];
-
+// The confirmed arrangement and trust assessment are verified securely on server
 function renderHeartsView() {
   let openEnv = 0;
 
@@ -1562,23 +1636,28 @@ function renderHeartsView() {
 
     // Grid Form validation
     const gridForm = document.querySelector('#heartsGridForm');
-    gridForm?.addEventListener('submit', e => {
+    gridForm?.addEventListener('submit', async e => {
       e.preventDefault();
       const fd = new FormData(gridForm);
-      const isMatch = heartCorrectArrangement.every((seat, idx) => {
-        const s = idx + 1;
-        return fd.get(`p${s}`) === seat.p && fd.get(`o${s}`) === seat.o && fd.get(`g${s}`) === seat.g;
-      });
+      const userArrangement = [1, 2, 3, 4, 5].map(s => ({
+        p: fd.get(`p${s}`),
+        o: fd.get(`o${s}`),
+        g: fd.get(`g${s}`)
+      }));
 
       const feedback = document.querySelector('#heartsGridFeedback');
-      if (isMatch) {
+      feedback.innerHTML = '<span style="color:var(--text-dim);">Verifying seat matrix on server...</span>';
+
+      const result = await verifyAnswerWithServer('hearts-grid', { arrangement: userArrangement });
+
+      if (result.ok) {
         audio.play('success');
         feedback.innerHTML = `<span style="color:var(--club);">✓ Arrangement verified! Now complete the 5-Question Trust Check below.</span>`;
         document.querySelector('#trustCheckSection').style.display = 'block';
         document.querySelector('#trustCheckSection').scrollIntoView({ behavior: 'smooth' });
       } else {
         audio.play('error');
-        feedback.innerHTML = `<span style="color:var(--heart);">Arrangement conflict. Check seat clues (e.g. Ruby+Locket=6, Topaz & Key at opposite ends).</span>`;
+        feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Arrangement conflict.'}</span>`;
       }
     });
 
@@ -1587,11 +1666,14 @@ function renderHeartsView() {
     trustForm?.addEventListener('submit', async e => {
       e.preventDefault();
       const fd = new FormData(trustForm);
-      const expected = ['TRUE', 'TRUE', 'FALSE', 'TRUE', 'FALSE'];
-      const passed = expected.every((val, i) => fd.get(`q${i}`) === val);
+      const userAnswers = [0, 1, 2, 3, 4].map(i => fd.get(`q${i}`));
 
       const feedback = document.querySelector('#trustFeedback');
-      if (passed) {
+      feedback.innerHTML = '<span style="color:var(--text-dim);">Evaluating trust vector on server...</span>';
+
+      const result = await verifyAnswerWithServer('hearts-trust', { answers: userAnswers });
+
+      if (result.ok) {
         audio.play('success');
         clearLevel('hearts');
         await awardBadge('hearts');
@@ -1607,7 +1689,7 @@ function renderHeartsView() {
         `;
       } else {
         audio.play('error');
-        feedback.innerHTML = `<span style="color:var(--heart);">Trust check failed. Recheck the statements against the 5-seat arrangement.</span>`;
+        feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Trust check failed.'}</span>`;
       }
     });
   }
@@ -1623,28 +1705,24 @@ const spadeCheckpoints = [
     step: 'CHECKPOINT 01 · WAYPOINT RIDDLE',
     location: 'Reception Area',
     prompt: 'I welcome those who arrive and point the lost in the right direction. Where am I?',
-    answers: ['reception', 'reception area', 'main desk', 'front desk'],
     keyAward: 'P'
   },
   {
     step: 'CHECKPOINT 02 · TECHNICAL RIDDLE',
     location: 'Sports Achievements Area',
     prompt: 'I am the evidence of a mistake. Read me and the problem reveals itself. What am I?',
-    answers: ['error log', 'log', 'error message', 'logs'],
     keyAward: 'S'
   },
   {
     step: 'CHECKPOINT 03 · THE STATUES',
     location: 'Three Statues',
     prompt: 'Silent while thousands pass. Outside, never moving, while everyone moves around them. Name the landmark.',
-    answers: ['three statues', 'statues', 'statue', 'the three statues'],
     keyAward: 'A'
   },
   {
     step: 'SYSTEM MESSAGE · ALPHABETICAL SCRAMBLE',
     location: 'Central Control',
     prompt: 'THE CODE IS NOT THE ANSWER. Put CODE in alphabetical order (C-D-E-O), then enter the original 1-based positions of those letters.',
-    answers: ['1342'],
     keyAward: 'D and E'
   }
 ];
@@ -1717,12 +1795,15 @@ function renderSpadesView() {
     `;
 
     const form = document.querySelector('#spadeStepForm');
-    form?.addEventListener('submit', e => {
+    form?.addEventListener('submit', async e => {
       e.preventDefault();
-      const val = document.querySelector('#spadeInput').value.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+      const val = document.querySelector('#spadeInput').value.trim();
       const feedback = document.querySelector('#spadeFeedback');
+      feedback.innerHTML = '<span style="color:var(--text-dim);">Verifying waypoint signal...</span>';
 
-      if (item.answers.some(a => a.toLowerCase().replace(/[^a-z0-9]/g, '') === val)) {
+      const result = await verifyAnswerWithServer('spades-step', { stepIdx, answer: val });
+
+      if (result.ok) {
         audio.play('success');
         if (item.keyAward.includes('and')) {
           earnedKeys.push('D', 'E');
@@ -1740,7 +1821,7 @@ function renderSpadesView() {
         }
       } else {
         audio.play('error');
-        feedback.innerHTML = `<span style="color:var(--heart);">Incorrect waypoint signal. Verify landmark clues.</span>`;
+        feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Incorrect waypoint signal. Verify landmark clues.'}</span>`;
       }
     });
 
@@ -1749,8 +1830,11 @@ function renderSpadesView() {
       e.preventDefault();
       const word = document.querySelector('#masterWordInput').value.trim().toUpperCase();
       const feedback = document.querySelector('#masterFeedback');
+      feedback.innerHTML = '<span style="color:var(--text-dim);">Decrypting master word...</span>';
 
-      if (word === 'SPADE') {
+      const result = await verifyAnswerWithServer('spades-master', { word });
+
+      if (result.ok) {
         audio.play('success');
         clearLevel('spades');
         await awardBadge('spades');
@@ -1766,7 +1850,7 @@ function renderSpadesView() {
         `;
       } else {
         audio.play('error');
-        feedback.innerHTML = `<span style="color:var(--heart);">Incorrect master word. Combine keys P, S, A, D, E.</span>`;
+        feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Incorrect master word. Combine keys P, S, A, D, E.'}</span>`;
       }
     });
   }
@@ -1883,19 +1967,22 @@ function renderClubsView() {
 
   let relayLocked = false;
   const orderForm = document.querySelector('#clubsOrderForm');
-  orderForm?.addEventListener('submit', e => {
+  orderForm?.addEventListener('submit', async e => {
     e.preventDefault();
     const fd = new FormData(orderForm);
     const order = [fd.get('c1'), fd.get('c2'), fd.get('c3'), fd.get('c4')].join('|');
     const feedback = document.querySelector('#clubsOrderFeedback');
+    feedback.innerHTML = '<span style="color:var(--text-dim);">Verifying sequence with relay tower...</span>';
 
-    if (order === 'SCAN|BRIEF|RELAY|EXECUTE') {
+    const result = await verifyAnswerWithServer('clubs-order', { order });
+
+    if (result.ok) {
       audio.play('success');
       relayLocked = true;
       feedback.innerHTML = `<span style="color:var(--club);">✓ Sequence verified: SCAN ➔ BRIEF ➔ RELAY ➔ EXECUTE. Now calibrate frequency & transmit protocol.</span>`;
     } else {
       audio.play('error');
-      feedback.innerHTML = `<span style="color:var(--heart);">Sequence conflict. Re-read the 3 relay rules.</span>`;
+      feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Sequence conflict. Re-read the 3 relay rules.'}</span>`;
     }
   });
 
@@ -1911,13 +1998,13 @@ function renderClubsView() {
       return;
     }
 
-    if (Number(slider.value) !== 72) {
-      audio.play('error');
-      feedback.innerHTML = `<span style="color:var(--joker);">Harmonic tuner misaligned. Target is 72 MHz (currently ${slider.value} MHz).</span>`;
-      return;
-    }
+    feedback.innerHTML = '<span style="color:var(--text-dim);">Transmitting harmonic pulse to war room...</span>';
+    const result = await verifyAnswerWithServer('clubs-signal', {
+      freq: Number(slider.value),
+      tactical: fd.get('tactical')
+    });
 
-    if (fd.get('tactical') === 'verify') {
+    if (result.ok) {
       audio.play('success');
       clearLevel('clubs');
       await awardBadge('clubs');
@@ -1933,7 +2020,7 @@ function renderClubsView() {
       `;
     } else {
       audio.play('error');
-      feedback.innerHTML = `<span style="color:var(--heart);">Protocol rejected. Accuracy must be protected under pressure.</span>`;
+      feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Protocol rejected.'}</span>`;
     }
   });
 }
@@ -2225,21 +2312,24 @@ function renderJokerView() {
     }, 1000);
 
     const form = document.querySelector('#storyQuestionsForm');
-    form?.addEventListener('submit', e => {
+    form?.addEventListener('submit', async e => {
       e.preventDefault();
       const fd = new FormData(form);
-      const q1 = fd.get('q1').trim().toLowerCase();
+      const q1 = fd.get('q1').trim();
       const q2 = fd.get('q2').trim();
-      const q3 = fd.get('q3').trim().toLowerCase().replace(/[^0-9]/g, '');
+      const q3 = fd.get('q3').trim();
       const q4 = fd.get('q4').trim();
 
       const feedback = document.querySelector('#storyFeedback');
-      if (q1 === 'yellow' && q2 === '15' && q3 === '3' && q4 === '6') {
+      feedback.innerHTML = '<span style="color:var(--text-dim);">Checking memory telemetry on server...</span>';
+
+      const result = await verifyAnswerWithServer('joker-story', { q1, q2, q3, q4 });
+      if (result.ok) {
         audio.play('success');
         feedback.innerHTML = `
           <div style="color:var(--club); background:rgba(80,250,158,0.1); padding:1rem; border-radius:4px; border:1px solid var(--club); margin-top:1rem;">
             <strong>✓ MEMORY TRAP SURVIVED!</strong><br>
-            Key numbers synthesized: Pages (15) · Table (3) · Key (6) ➔ Code: <strong>1536</strong>.<br>
+            Key numbers synthesized from your recollection.<br>
             Final stage unlocked: The 3 Campus Exit Locations.
             <div style="margin-top:0.75rem;">
               <button type="button" class="cyber-btn" id="btnCampusEscape" style="background:var(--joker); color:#000;">REACH CAMPUS ESCAPE ↗</button>
@@ -2251,7 +2341,7 @@ function renderJokerView() {
         });
       } else {
         audio.play('error');
-        feedback.innerHTML = `<span style="color:var(--heart);">Memory discrepancy detected. Re-verify the details.</span>`;
+        feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Memory discrepancy detected. Re-verify the details.'}</span>`;
       }
     });
   }
@@ -2263,7 +2353,7 @@ function renderJokerView() {
           <p class="page-eyebrow" style="color:var(--joker);">LEVEL 07 FINAL STRIKE // CAMPUS EXIT LOCATIONS</p>
           <h1 class="page-title">PARADOX<br><span style="color:var(--joker);">ESCAPED.</span></h1>
           <p class="page-desc">
-            To claim the physical Joker Card, solve the three campus escape riddles and enter the master verification code <strong>1536</strong>.
+            To claim the physical Joker Card, solve the three campus escape riddles and enter the master verification code.
           </p>
         </header>
 
@@ -2272,7 +2362,7 @@ function renderJokerView() {
         <div class="challenge-card" style="border-color:var(--joker); max-width:760px; margin:0 auto;">
           <div class="challenge-top">
             <span>FINAL THREE LANDMARKS</span>
-            <span>CODE: 1536</span>
+            <span>MASTER CODE CIPHER</span>
           </div>
 
           <div style="display:flex; flex-direction:column; gap:1rem; margin-bottom:2rem;">
@@ -2295,7 +2385,7 @@ function renderJokerView() {
               ENTER MASTER ESCAPE CODE (PAGES · TABLE · KEY)
             </label>
             <div style="display:flex; gap:0.5rem;">
-              <input class="cyber-input" id="finalCodeInput" placeholder="1536" required style="font-size:1.2rem; font-weight:700; text-align:center;" />
+              <input class="cyber-input" id="finalCodeInput" placeholder="Enter 4-digit code..." required style="font-size:1.2rem; font-weight:700; text-align:center;" autocomplete="off" />
               <button type="submit" class="cyber-btn" style="background:var(--joker); color:#000;">CLAIM JOKER ↗</button>
             </div>
             <div id="finalJokerFeedback" style="font-family:var(--mono); font-size:0.85rem; text-align:center;"></div>
@@ -2309,8 +2399,11 @@ function renderJokerView() {
       e.preventDefault();
       const code = document.querySelector('#finalCodeInput').value.trim();
       const feedback = document.querySelector('#finalJokerFeedback');
+      feedback.innerHTML = '<span style="color:var(--text-dim);">Authenticating master key on server...</span>';
 
-      if (code === '1536') {
+      const result = await verifyAnswerWithServer('joker-final', { code });
+
+      if (result.ok) {
         audio.play('success');
         clearLevel('joker');
         await awardBadge('joker');
@@ -2328,7 +2421,7 @@ function renderJokerView() {
         `;
       } else {
         audio.play('error');
-        feedback.innerHTML = `<span style="color:var(--heart);">Invalid code. Recall notebook pages (15) · Table (3) · Key (6).</span>`;
+        feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Invalid code. Verify notebook records.'}</span>`;
       }
     });
   }
