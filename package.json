@@ -1,0 +1,13 @@
+{
+  "name": "borderland-trail",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "mongodb": "^6.16.0"
+  }
+}

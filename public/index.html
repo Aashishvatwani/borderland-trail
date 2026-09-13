@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#08080a" />
+  <meta name="description" content="IEEE Borderland Trail — Multi-Round Team Challenge across logic, trust, physical waypoints, and memory." />
+  <title>Borderland Trail — IEEE Multi-Round Challenge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Manrope:wght@300;400;500;600;700;800&family=Permanent+Marker&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=paradox_v10" />
+</head>
+<body>
+  <!-- Leonardo.ai Ambient Background Lighting -->
+  <div class="leo-bg-lights" aria-hidden="true">
+    <div class="leo-light-orb orb-1"></div>
+    <div class="leo-light-orb orb-2"></div>
+    <div class="leo-light-orb orb-3"></div>
+  </div>
+
+  <!-- Ambient & Noise Texture -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+  <div class="cursor-ambient" id="cursorAmbient" aria-hidden="true"></div>
+
+  <!-- Mario Roudil Style Page Transition Curtain -->
+  <div id="pageCurtain" class="transition-curtain" aria-hidden="true">
+    <div class="curtain-slat"></div>
+    <div class="curtain-slat"></div>
+    <div class="curtain-slat"></div>
+    <div class="curtain-slat"></div>
+    <div class="curtain-content">
+      <div class="curtain-suit" id="curtainSuit">♦</div>
+      <div class="curtain-title" id="curtainTitle">THE EXIT CODE</div>
+      <div class="curtain-tag" id="curtainTag">PHASE 01 // MATHEMATICS & LOGIC</div>
+    </div>
+  </div>
+
+  <!-- Global Header Navigation -->
+  <header class="top-nav">
+    <a href="#/" class="brand-mark" data-nav>
+      <span class="brand-dot"></span>
+      <span>BT<strong>•26</strong></span>
+      <small style="color:var(--text-dim); font-size:0.75rem; margin-left:4px;">IEEE</small>
+    </a>
+
+    <nav class="nav-links">
+      <a href="#/" class="nav-item" data-route="home" data-nav>Overview</a>
+      <a href="#/formation" class="nav-item" data-route="formation" data-nav>Formation</a>
+      <a href="#/card-hunt" class="nav-item" data-route="card-hunt" data-nav>Card Hunt</a>
+      <a href="#/diamonds" class="nav-item" data-route="diamonds" data-nav style="color:var(--diamond);">♦ Diamonds</a>
+      <a href="#/hearts" class="nav-item" data-route="hearts" data-nav style="color:var(--heart);">♥ Hearts</a>
+      <a href="#/spades" class="nav-item" data-route="spades" data-nav style="color:var(--spade);">♠ Spades</a>
+      <a href="#/clubs" class="nav-item" data-route="clubs" data-nav style="color:var(--club);">♣ Clubs</a>
+      <a href="#/joker" class="nav-item" data-route="joker" data-nav style="color:var(--joker);">🃏 Joker</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button type="button" class="btn-audio" id="btnAudio" aria-label="Toggle procedural sound synthesis">
+        <span id="audioIcon">🔈</span> <span id="audioText">FX OFF</span>
+      </button>
+      <a href="#/formation" class="btn-enter-trail" data-nav>
+        ENTER TRAIL <span>↗</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Dynamic Page Mount -->
+  <main id="pageRoot" role="main" tabindex="-1">
+    <!-- Rendered dynamically by app.js -->
+  </main>
+
+  <!-- Level Guard Toast Notification -->
+  <div id="levelToast" class="level-toast" role="alert" aria-live="assertive">
+    <span>🔒</span> <span id="toastMsg">LEVEL LOCKED: Complete previous round first!</span>
+  </div>
+
+  <script src="app.js?v=paradox_v10"></script>
+</body>
+</html>
