@@ -1,4 +1,4 @@
-// Borderland Trail — IEEE Multi-Round Challenge Engine
+// Borderland Trail — NISB Multi-Round Challenge Engine
 // Mario Roudil Style Page Transitions & Strict Level-by-Level Progression System
 
 // ==========================================================================
@@ -52,7 +52,7 @@
   // 3. Suppress inspection via Console warning
   if (typeof console !== 'undefined') {
     console.log(
-      '%c⚠️ BORDERLAND TRAIL // IEEE ARENA ACTIVE',
+      '%c⚠️ BORDERLAND TRAIL // NISB ARENA ACTIVE',
       'color:#ffb703; font-size:18px; font-weight:900; text-shadow:0 0 10px #ffb703;'
     );
     console.log(
@@ -336,8 +336,8 @@ const curtainTag = document.querySelector('#curtainTag');
 const pageRoot = document.querySelector('#pageRoot');
 
 const routeMeta = {
-  '': { suit: 'BT', title: 'THE BORDERLAND TRAIL', tag: 'IEEE MULTI-ROUND TEAM ARENA', color: 'var(--acid)' },
-  'home': { suit: 'BT', title: 'THE BORDERLAND TRAIL', tag: 'IEEE MULTI-ROUND TEAM ARENA', color: 'var(--acid)' },
+  '': { suit: 'BT', title: 'THE BORDERLAND TRAIL', tag: 'NISB MULTI-ROUND TEAM ARENA', color: 'var(--acid)' },
+  'home': { suit: 'BT', title: 'THE BORDERLAND TRAIL', tag: 'NISB MULTI-ROUND TEAM ARENA', color: 'var(--acid)' },
   'formation': { suit: '01', title: 'FIND YOUR PEOPLE', tag: 'PHASE 01 // CREW ASSEMBLY', color: 'var(--acid)' },
   'card-hunt': { suit: '02', title: 'RIDDLE & CARD HUNT', tag: 'PHASE 02 // SUIT ROUTE CIPHER', color: '#fff' },
   'diamonds': { suit: '♦', title: 'THE EXIT CODE', tag: 'TRIAL 01 // MATHEMATICS & LOGIC', color: 'var(--diamond)' },
@@ -609,18 +609,18 @@ function renderHomeView() {
                 <span>BORDERLAND TRAIL ARENA</span>
               </div>
               <div class="paradox-eyebrow-2">
-                IEEE PRESENTS
+                NISB PRESENTS
               </div>
             </div>
 
             <!-- Hero Title -->
             <div>
-              <h1 class="paradox-hero-title">
+              <h6 class="paradox-hero-title">
                 SURVIVE <br />
                 <span class="paradox-brush-title animate-glitch-brush">
                   THE PARADOX.
                 </span>
-              </h1>
+              </h6>
               <div class="paradox-sub-title">
                 MASTER THE FOUR SUITS.
               </div>
@@ -748,15 +748,15 @@ function renderHomeView() {
             </div>
           </div>
 
-          <!-- IEEE Footer Branding -->
-          <div class="paradox-ieee-footer">
-            <div class="ieee-brand-tag">
+          <!-- NISB Footer Branding -->
+          <div class="paradox-NISB-footer">
+            <div class="NISB-brand-tag">
               <svg style="width:14px; height:14px; color:#ffb703;" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
               </svg>
-              <span>IEEE | IDEAS • PEOPLE • POSSIBILITIES</span>
+              <span>NISB | IDEAS • PEOPLE • POSSIBILITIES</span>
             </div>
-            <div class="ieee-motto">
+            <div class="NISB-motto">
               NOT JUST A GAME. A STATE OF MIND.
             </div>
           </div>
@@ -2412,7 +2412,7 @@ function renderJokerView() {
             <div style="font-size:3.5rem;">👑 🃏 🏆</div>
             <h2 style="font-family:var(--display); font-size:2rem; color:var(--joker); margin:0.5rem 0;">PARADOX CONQUERED!</h2>
             <p style="font-size:1rem; color:var(--text-main); margin-bottom:1.5rem;">
-              All Seven Levels, All Four Suits (♦ ♥ ♠ ♣), and The Joker (🃏) have been conquered. Your crew <strong>${currentTeam}</strong> has cleared the IEEE Multi-Round Challenge!
+              All Seven Levels, All Four Suits (♦ ♥ ♠ ♣), and The Joker (🃏) have been conquered. Your crew <strong>${currentTeam}</strong> has cleared the NISB Multi-Round Challenge!
             </p>
             <a href="#/leaderboard" class="cyber-btn" style="background:var(--acid); color:#000;" data-nav>
               VIEW LIVE LEADERBOARD STANDINGS ↗
