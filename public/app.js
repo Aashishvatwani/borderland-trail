@@ -144,7 +144,7 @@ class SoundSynth {
         osc.start(now);
         osc.stop(now + 0.2);
       }
-    } catch {}
+    } catch { }
   }
 }
 
@@ -311,7 +311,7 @@ async function awardBadge(suit) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ teamName: currentTeam, suit, timeSeconds: Math.floor(Date.now() / 1000) })
     });
-  } catch {}
+  } catch { }
 }
 
 // Secure Server-Side Answer Verification Client
@@ -322,7 +322,12 @@ async function verifyAnswerWithServer(round, payload = {}) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ round, teamName: currentTeam, ...payload })
     });
-    return await res.json();
+    const text = await res.text();
+    try {
+      return JSON.parse(text);
+    } catch {
+      return { ok: false, error: `Server error (${res.status}). Response was not valid JSON.` };
+    }
   } catch (e) {
     return { ok: false, error: 'Connection error. Check network link.' };
   }
@@ -708,17 +713,17 @@ function renderHomeView() {
           <!-- 7 Cards Deck in 3D Perspective -->
           <div class="cards-deck-perspective">
             ${trailCards.map((c) => {
-              const { isCleared, isActive, isUnlocked } = getCardStatus(c.id);
-              let cardClass = 'trail-card';
-              if (isActive) cardClass += ' active-gold-card';
-              if (c.isJoker) cardClass += ' trail-card-joker';
-              if (isCleared) cardClass += ' card-cleared';
-              if (!isUnlocked) cardClass += ' card-locked';
+    const { isCleared, isActive, isUnlocked } = getCardStatus(c.id);
+    let cardClass = 'trail-card';
+    if (isActive) cardClass += ' active-gold-card';
+    if (c.isJoker) cardClass += ' trail-card-joker';
+    if (isCleared) cardClass += ' card-cleared';
+    if (!isUnlocked) cardClass += ' card-locked';
 
-              const suitColor = c.isJoker ? '#c084fc' : (c.suit === '♦' ? '#ffb703' : (c.suit === '♥' ? '#f43f5e' : (c.suit === '♠' ? '#818cf8' : '#34d399')));
-              const glyph = !isUnlocked ? '🔒' : (c.isJoker ? '👑' : c.suit);
+    const suitColor = c.isJoker ? '#c084fc' : (c.suit === '♦' ? '#ffb703' : (c.suit === '♥' ? '#f43f5e' : (c.suit === '♠' ? '#818cf8' : '#34d399')));
+    const glyph = !isUnlocked ? '🔒' : (c.isJoker ? '👑' : c.suit);
 
-              return `
+    return `
                 <div class="${cardClass}" data-card-id="${c.id}" style="transform: rotateY(${c.rot}) translateZ(${c.tz});">
                   <div class="trail-card-top">
                     <span>0${c.num}</span>
@@ -732,7 +737,7 @@ function renderHomeView() {
                   </div>
                 </div>
               `;
-            }).join('')}
+  }).join('')}
           </div>
 
           <!-- Connecting Node Progress Timeline Line -->
@@ -740,10 +745,10 @@ function renderHomeView() {
             <div class="timeline-fill" style="width: ${Math.max(14.28, (cleared.length / 7) * 100)}%;"></div>
             <div class="timeline-nodes">
               ${trailCards.map((c) => {
-                const { isCleared, isActive } = getCardStatus(c.id);
-                const nodeCls = isCleared ? 'cleared' : (isActive ? 'active' : '');
-                return `<span class="timeline-node ${nodeCls}"></span>`;
-              }).join('')}
+    const { isCleared, isActive } = getCardStatus(c.id);
+    const nodeCls = isCleared ? 'cleared' : (isActive ? 'active' : '');
+    return `<span class="timeline-node ${nodeCls}"></span>`;
+  }).join('')}
             </div>
           </div>
 
@@ -1056,7 +1061,7 @@ function renderFormationView() {
         <div class="challenge-card">
           <div class="challenge-top">
             <span>TEAM REGISTRATION</span>
-            <span>MONGODB ATLAS SYNC</span>
+          
           </div>
 
           <form id="formationForm" style="display:flex; flex-direction:column; gap:1rem;">
@@ -1152,7 +1157,13 @@ function renderFormationView() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(teamData)
       });
-      const data = await res.json();
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error(`Server returned non-JSON (${res.status}).`);
+      }
       if (!res.ok) throw new Error(data.error || 'Failed to save crew');
 
       setActiveTeam(data.team.name);
@@ -1348,7 +1359,7 @@ function renderDiamondsView() {
             <div class="decoy-grid">
               ${diamondCards.map((c, i) => `
                 <div class="decoy-card ${i === idx ? 'solved' : ''}" data-card-idx="${i}">
-                  <span style="font-family:var(--mono); font-size:0.65rem; color:var(--text-dim);">#${String(i + 1).padStart(2,'0')}</span>
+                  <span style="font-family:var(--mono); font-size:0.65rem; color:var(--text-dim);">#${String(i + 1).padStart(2, '0')}</span>
                   <strong style="font-family:var(--display); font-size:0.95rem; color:${i === idx ? 'var(--diamond)' : '#fff'};">${c.card}</strong>
                   <span style="font-family:var(--mono); font-size:0.7rem; color:${c.genuine ? 'var(--diamond)' : 'var(--text-dim)'};">${c.genuine ? '♦' : '✕'}</span>
                 </div>
@@ -1502,7 +1513,7 @@ function renderHeartsView() {
 
           <form id="heartsGridForm">
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:1rem; margin-bottom:1.5rem;">
-              ${[1,2,3,4,5].map(seat => `
+              ${[1, 2, 3, 4, 5].map(seat => `
                 <div style="background:rgba(0,0,0,0.4); border:1px solid var(--border-subtle); padding:1rem; border-radius:6px;">
                   <div style="font-family:var(--mono); font-size:0.8rem; font-weight:700; color:var(--heart); margin-bottom:0.75rem;">
                     SEAT 0${seat}
@@ -1510,15 +1521,15 @@ function renderHeartsView() {
                   <div style="display:flex; flex-direction:column; gap:0.5rem;">
                     <select class="cyber-input" name="p${seat}" required style="padding:0.5rem;">
                       <option value="">— Person —</option>
-                      ${['Vikram','Meera','Aarav','Diya','Rohan'].map(p => `<option value="${p}">${p}</option>`).join('')}
+                      ${['Vikram', 'Meera', 'Aarav', 'Diya', 'Rohan'].map(p => `<option value="${p}">${p}</option>`).join('')}
                     </select>
                     <select class="cyber-input" name="o${seat}" required style="padding:0.5rem;">
                       <option value="">— Object —</option>
-                      ${['Key','Watch','Ring','Coin','Locket'].map(o => `<option value="${o}">${o}</option>`).join('')}
+                      ${['Key', 'Watch', 'Ring', 'Coin', 'Locket'].map(o => `<option value="${o}">${o}</option>`).join('')}
                     </select>
                     <select class="cyber-input" name="g${seat}" required style="padding:0.5rem;">
                       <option value="">— Gem —</option>
-                      ${['Ruby','Emerald','Pearl','Sapphire','Topaz'].map(g => `<option value="${g}">${g}</option>`).join('')}
+                      ${['Ruby', 'Emerald', 'Pearl', 'Sapphire', 'Topaz'].map(g => `<option value="${g}">${g}</option>`).join('')}
                     </select>
                   </div>
                 </div>
@@ -1544,12 +1555,12 @@ function renderHeartsView() {
 
             <form id="trustForm" style="display:flex; flex-direction:column; gap:1rem;">
               ${[
-                'Ruby owner and Key holder are the same person.',
-                'Pearl owner sits immediately right of Emerald owner.',
-                'Rohan owns Sapphire.',
-                'Coin holder sits between Pearl owner and Topaz owner.',
-                'Meera and the Sapphire owner sit next to each other.'
-              ].map((q, idx) => `
+        'Ruby owner and Key holder are the same person.',
+        'Pearl owner sits immediately right of Emerald owner.',
+        'Rohan owns Sapphire.',
+        'Coin holder sits between Pearl owner and Topaz owner.',
+        'Meera and the Sapphire owner sit next to each other.'
+      ].map((q, idx) => `
                 <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:0.85rem 1.25rem; border-radius:6px; border:1px solid var(--border-subtle); flex-wrap:wrap; gap:0.5rem;">
                   <span style="font-size:0.9rem;">0${idx + 1}. ${q}</span>
                   <select class="cyber-input" name="q${idx}" required style="width:120px; padding:0.4rem;">
@@ -1695,7 +1706,7 @@ function renderSpadesView() {
 
         <!-- Key Strip -->
         <div style="display:flex; gap:0.75rem; justify-content:center; margin-bottom:2rem;">
-          ${['S','P','A','D','E'].map(k => `
+          ${['S', 'P', 'A', 'D', 'E'].map(k => `
             <div style="width:48px; height:48px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:1.3rem; font-weight:800; border:1px solid ${earnedKeys.includes(k) ? 'var(--spade)' : 'var(--border-subtle)'}; background:${earnedKeys.includes(k) ? 'rgba(187,162,255,0.2)' : 'rgba(0,0,0,0.3)'}; color:${earnedKeys.includes(k) ? 'var(--spade)' : 'var(--text-dim)'};">
               ${earnedKeys.includes(k) ? k : '?'}
             </div>
@@ -1837,7 +1848,7 @@ function renderClubsView() {
           </div>
 
           <form id="clubsOrderForm" style="display:flex; flex-direction:column; gap:1rem;">
-            ${[1,2,3,4].map(slot => `
+            ${[1, 2, 3, 4].map(slot => `
               <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:0.75rem 1rem; border-radius:6px; border:1px solid var(--border-subtle);">
                 <span style="font-family:var(--mono); font-size:0.85rem; font-weight:700;">STAGE 0${slot}</span>
                 <select class="cyber-input" name="c${slot}" required style="width:160px; padding:0.4rem;">
@@ -2467,7 +2478,14 @@ async function renderLeaderboardView() {
     const container = document.querySelector('#leaderboardContainer');
     try {
       const res = await fetch('/api/leaderboard');
-      const teams = await res.json();
+      const text = await res.text();
+      let teams = [];
+      try {
+        teams = JSON.parse(text);
+      } catch {
+        container.innerHTML = `<p style="color:var(--heart); font-family:var(--mono);">Could not parse standings response from server (${res.status}).</p>`;
+        return;
+      }
 
       if (!teams.length) {
         container.innerHTML = `<p style="font-family:var(--mono); color:var(--text-dim);">No teams registered yet. Be the first to assemble a crew in Level 01!</p>`;
