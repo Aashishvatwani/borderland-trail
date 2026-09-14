@@ -262,7 +262,7 @@
     radial-gradient(ellipse at 65% 45%, rgba(255, 183, 3, 0.15) 0%, transparent 60%),
     linear-gradient(180deg, rgba(4, 6, 10, 0.75) 0%, rgba(4, 6, 10, 0.15) 40%, rgba(4, 6, 10, 0.6) 75%, #04060a 100%),
     linear-gradient(90deg, rgba(4, 6, 10, 0.9) 0%, rgba(4, 6, 10, 0.5) 45%, rgba(4, 6, 10, 0.2) 100%),
-    url('/hero-arena.jpg') no-repeat center bottom / cover;
+    url('/Background.png') no-repeat center bottom / cover;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -358,7 +358,7 @@
 
 .paradox-hero-title {
   font-family: 'Rajdhani', sans-serif;
-  font-size: clamp(3.4rem, 6.5vw, 5.8rem);
+  font-size: clamp(2.9rem, 6.0vw, 5.4rem);
   font-weight: 900;
   font-style: italic;
   letter-spacing: -0.02em;
@@ -821,8 +821,8 @@
   border-color: #10b981;
 }
 
-/* IEEE Footer line */
-.paradox-ieee-footer {
+/* NISB Footer line */
+.paradox-NISB-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -833,7 +833,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.ieee-brand-tag {
+.NISB-brand-tag {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -842,7 +842,7 @@
   letter-spacing: 0.12em;
 }
 
-.ieee-motto {
+.NISB-motto {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #94a3b8;
@@ -1139,6 +1139,14 @@ body {
   letter-spacing: -0.02em;
   color: var(--text-main);
   text-decoration: none;
+}
+
+.nisb-logo{
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  display: block;
+  border-radius: 50%;
 }
 
 .brand-dot {

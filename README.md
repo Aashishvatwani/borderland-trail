@@ -1,6 +1,6 @@
 # Borderland Trail
 
-Immersive event landing page and lightweight Node API for the IEEE multi-round challenge.
+Immersive event landing page and lightweight Node API for the NISB multi-round challenge.
 
 ## Run locally
 
