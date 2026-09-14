@@ -391,6 +391,9 @@ function navigateTo(route) {
     // Mount page view
     mountView(cleanRoute);
 
+    // Close mobile nav drawer if open
+    closeMobileMenu();
+
     // Update nav links active state
     document.querySelectorAll('.nav-item').forEach(el => {
       el.classList.toggle('active', el.dataset.route === cleanRoute);
@@ -410,11 +413,47 @@ function navigateTo(route) {
   }, 380);
 }
 
+// Mobile Navigation Drawer Controller
+const btnMobileMenu = document.querySelector('#btnMobileMenu');
+const navMobileOverlay = document.querySelector('#navMobileOverlay');
+const navLinks = document.querySelector('.nav-links');
+
+function closeMobileMenu() {
+  if (btnMobileMenu) {
+    btnMobileMenu.classList.remove('open');
+    btnMobileMenu.setAttribute('aria-expanded', 'false');
+  }
+  if (navLinks) navLinks.classList.remove('mobile-open');
+  if (navMobileOverlay) navMobileOverlay.classList.remove('active');
+}
+
+function toggleMobileMenu() {
+  if (!btnMobileMenu || !navLinks) return;
+  const isOpen = btnMobileMenu.classList.toggle('open');
+  btnMobileMenu.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  navLinks.classList.toggle('mobile-open', isOpen);
+  if (navMobileOverlay) navMobileOverlay.classList.toggle('active', isOpen);
+  if (isOpen) audio.play('click');
+}
+
+if (btnMobileMenu) {
+  btnMobileMenu.addEventListener('click', toggleMobileMenu);
+}
+if (navMobileOverlay) {
+  navMobileOverlay.addEventListener('click', closeMobileMenu);
+}
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 900) {
+    closeMobileMenu();
+  }
+});
+
 // Global Nav click interceptor
 document.addEventListener('click', event => {
   const link = event.target.closest('a[data-nav]');
   if (link && link.getAttribute('href')?.startsWith('#')) {
     event.preventDefault();
+    closeMobileMenu();
     const href = link.getAttribute('href');
     const targetRoute = href.replace(/^#\/?/, '') || 'home';
 
@@ -597,10 +636,8 @@ function renderHomeView() {
         <!-- Live Animated Canvas for Floating Golden Embers & Lightning Sparks -->
         <canvas id="liveSceneCanvas" style="position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:2;"></canvas>
 
-        <!-- Top Columns: Left Hero + Right HUD -->
+        <!-- Main Hero Content -->
         <div class="paradox-main-content">
-          
-          <!-- Left Column Content -->
           <div class="paradox-left-col">
             <!-- Header Tag -->
             <div class="paradox-header-tag">
@@ -640,57 +677,19 @@ function renderHomeView() {
               </button>
             </div>
 
-            <!-- Scroll / Directive indicator -->
-            <div class="paradox-scroll-hint" id="scrollHint" style="cursor:pointer;">
-              <div class="mouse-pill">
-                <span class="mouse-wheel"></span>
+            <!-- Directive / Bridge info -->
+            <div style="display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap; margin-top:0.5rem;">
+              <div class="paradox-scroll-hint" id="scrollHint" style="cursor:pointer;">
+                <div class="mouse-pill">
+                  <span class="mouse-wheel"></span>
+                </div>
+                <span>SCROLL TO EXPLORE TRAIL</span>
               </div>
-              <span>SCROLL TO EXPLORE TRAIL</span>
-            </div>
-
-            <!-- Left bottom bridge label -->
-            <div class="paradox-bridge-label">
-              STRANGERS<br/>CONNECT<br/>HERE
-            </div>
-          </div>
-
-          <!-- Right Column: Live Telemetry HUD & Signs -->
-          <div class="paradox-right-col">
-            <!-- Live Players Online Box -->
-            <div class="paradox-telemetry-card">
-              <div class="telemetry-top">
-                <span class="ping-wrap">
-                  <span class="ping-dot"></span>
-                  PLAYERS ONLINE
-                </span>
-                <span style="color:#34d399; font-size:0.65rem;">LIVE GRID</span>
-              </div>
-              <div class="telemetry-bottom">
-                <span class="player-count-num" id="playerCount">1,248</span>
-                <div class="equalizer-bars" id="freqBars"></div>
-              </div>
-            </div>
-
-            <!-- Graffiti Signs overlaying the scene -->
-            <div class="paradox-signs">
-              <div class="sign-box-1">
-                <p>SAME PEOPLE</p>
-                <p>DIFFERENT REALITIES</p>
-                <p style="font-size:0.62rem; color:#64748b; margin-top:0.25rem;">&gt;&lt; X &gt;&lt;</p>
-              </div>
-
-              <div class="sign-box-2">
-                <p class="highlight">EVERY CHOICE LEAVES A TRACE.</p>
-                <p style="font-size:0.65rem; color:#64748b; margin-top:0.15rem;">VS</p>
-              </div>
-
-              <div class="sign-box-3">
-                <span>WILL YOU BREAK,</span><br/>
-                <span>OR BECOME THE EXCEPTION?</span>
+              <div class="paradox-bridge-label">
+                STRANGERS • CONNECT • HERE
               </div>
             </div>
           </div>
-
         </div>
 
         <!-- Bottom Dock / Level Trail (The 7 3D Perspective Cards) -->
@@ -913,37 +912,7 @@ function renderHomeView() {
     });
   });
 
-  // 5. Live Equalizer Audio Telemetry Frequency Bars
-  const freqContainer = document.querySelector('#freqBars');
-  if (freqContainer) {
-    const barCount = 14;
-    for (let i = 0; i < barCount; i++) {
-      const bar = document.createElement('span');
-      bar.className = 'eq-bar';
-      bar.style.height = `${Math.random() * 18 + 5}px`;
-      freqContainer.appendChild(bar);
-    }
-
-    const eqTimer = setInterval(() => {
-      Array.from(freqContainer.children).forEach(bar => {
-        bar.style.height = `${Math.random() * 22 + 4}px`;
-      });
-    }, 160);
-    activeTimers.push(eqTimer);
-  }
-
-  // 6. Live Players Online Dynamic Counter
-  const playerCountEl = document.querySelector('#playerCount');
-  if (playerCountEl) {
-    let currentPlayers = 1248;
-    const playerTimer = setInterval(() => {
-      currentPlayers += Math.floor(Math.random() * 5) - 2;
-      playerCountEl.textContent = currentPlayers.toLocaleString();
-    }, 4000);
-    activeTimers.push(playerTimer);
-  }
-
-  // 7. Live Animated Canvas: Golden Embers & Sparks Over Master Artwork
+  // 5. Live Animated Canvas: Subtle Ambient Stardust & Embers Over Master Artwork
   const canvas = document.querySelector('#liveSceneCanvas');
   if (canvas) {
     const ctx = canvas.getContext('2d');
@@ -960,23 +929,23 @@ function renderHomeView() {
     resizeCanvas();
 
     const handleMouseMove = (e) => {
-      targetMouseX = (e.clientX / W - 0.5) * 30;
-      targetMouseY = (e.clientY / H - 0.5) * 20;
+      targetMouseX = (e.clientX / W - 0.5) * 20;
+      targetMouseY = (e.clientY / H - 0.5) * 15;
     };
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
-    // Initialize 80 Floating Glowing Golden Embers
+    // Initialize Subtle Ambient Floating Embers
     const embers = [];
-    const EMBER_COUNT = 80;
+    const EMBER_COUNT = window.innerWidth <= 768 ? 25 : 50;
     for (let i = 0; i < EMBER_COUNT; i++) {
       embers.push({
         x: Math.random() * W,
         y: Math.random() * H,
-        size: Math.random() * 2.4 + 0.8,
-        speedY: Math.random() * 1.4 + 0.5,
-        speedX: (Math.random() - 0.5) * 0.7,
-        alpha: Math.random() * 0.85 + 0.15,
-        decay: Math.random() * 0.005 + 0.003
+        size: Math.random() * 1.8 + 0.6,
+        speedY: Math.random() * 0.9 + 0.3,
+        speedX: (Math.random() - 0.5) * 0.5,
+        alpha: Math.random() * 0.6 + 0.1,
+        decay: Math.random() * 0.003 + 0.002
       });
     }
 
@@ -992,57 +961,35 @@ function renderHomeView() {
         return;
       }
 
-      emberTime += 0.03;
-      mouseX += (targetMouseX - mouseX) * 0.06;
-      mouseY += (targetMouseY - mouseY) * 0.06;
+      emberTime += 0.02;
+      mouseX += (targetMouseX - mouseX) * 0.05;
+      mouseY += (targetMouseY - mouseY) * 0.05;
 
       ctx.clearRect(0, 0, W, H);
 
-      // Render Embers
+      // Render Subtle Stardust Embers
       ctx.save();
       for (let i = 0; i < embers.length; i++) {
         const p = embers[i];
         p.y -= p.speedY;
-        p.x += p.speedX + Math.sin(emberTime + p.y * 0.012) * 0.45;
+        p.x += p.speedX + Math.sin(emberTime + p.y * 0.01) * 0.3;
         p.alpha -= p.decay;
 
         if (p.y < 0 || p.alpha <= 0) {
           p.x = Math.random() * W;
           p.y = H + 10;
-          p.alpha = Math.random() * 0.85 + 0.15;
-          p.speedY = Math.random() * 1.4 + 0.5;
+          p.alpha = Math.random() * 0.6 + 0.1;
+          p.speedY = Math.random() * 0.9 + 0.3;
         }
 
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = '#ffb703';
-        ctx.fillStyle = `rgba(255, 183, 3, ${p.alpha})`;
+        ctx.shadowBlur = 4;
+        ctx.shadowColor = 'rgba(255, 255, 255, 0.3)';
+        ctx.fillStyle = `rgba(240, 246, 255, ${p.alpha * 0.6})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
       }
       ctx.restore();
-
-      // Occasional Electric Sparks over the card area (around 62% width, 44% height)
-      if (Math.random() > 0.65) {
-        ctx.save();
-        const cardCenterX = W * 0.61 + mouseX * 0.4;
-        const cardCenterY = H * 0.42 + mouseY * 0.4;
-        ctx.strokeStyle = Math.random() > 0.5 ? '#ffe66d' : '#ffffff';
-        ctx.shadowColor = '#ffb703';
-        ctx.shadowBlur = 12;
-        ctx.lineWidth = 1.6;
-        ctx.beginPath();
-        let sx = cardCenterX + (Math.random() - 0.5) * 65;
-        let sy = cardCenterY + (Math.random() - 0.5) * 85;
-        ctx.moveTo(sx, sy);
-        for (let k = 0; k < 3; k++) {
-          sx += (Math.random() - 0.5) * 18;
-          sy += (Math.random() - 0.5) * 18;
-          ctx.lineTo(sx, sy);
-        }
-        ctx.stroke();
-        ctx.restore();
-      }
 
       animId = requestAnimationFrame(emberLoop);
     };

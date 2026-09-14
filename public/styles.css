@@ -66,7 +66,7 @@
 .orb-1 {
   width: 720px;
   height: 720px;
-  background: rgba(212, 175, 55, 0.08);
+  background: rgba(148, 163, 184, 0.04);
   top: -15%;
   left: 20%;
   animation: orb-drift-1 22s ease-in-out infinite alternate;
@@ -242,13 +242,13 @@
 
 .paradox-overview-wrapper {
   position: relative;
-  width: 100vw !important;
-  max-width: 100vw !important;
+  width: 100% !important;
+  max-width: 100% !important;
   min-height: 100vh;
   margin: 0 !important;
   padding: 0 !important;
   margin-top: -72px !important;
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
   background-color: #04060a;
   user-select: none;
 }
@@ -256,27 +256,34 @@
 /* Master Hero Scene with Artwork Backdrop */
 .paradox-scene-bg {
   position: relative;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   background: 
-    radial-gradient(ellipse at 65% 45%, rgba(255, 183, 3, 0.15) 0%, transparent 60%),
-    linear-gradient(180deg, rgba(4, 6, 10, 0.75) 0%, rgba(4, 6, 10, 0.15) 40%, rgba(4, 6, 10, 0.6) 75%, #04060a 100%),
-    linear-gradient(90deg, rgba(4, 6, 10, 0.9) 0%, rgba(4, 6, 10, 0.5) 45%, rgba(4, 6, 10, 0.2) 100%),
+    linear-gradient(180deg, rgba(4, 6, 10, 0.85) 0%, rgba(4, 6, 10, 0.35) 40%, rgba(4, 6, 10, 0.85) 80%, #04060a 100%),
+    linear-gradient(90deg, rgba(4, 6, 10, 0.94) 0%, rgba(4, 6, 10, 0.55) 50%, rgba(4, 6, 10, 0.3) 100%),
     url('/Background.png') no-repeat center bottom / cover;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 86px;
-  padding-bottom: 2rem;
+  padding-top: clamp(86px, 12vh, 105px);
+  padding-bottom: clamp(1.5rem, 4vh, 2.5rem);
   box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .paradox-scene-bg {
+    background: 
+      linear-gradient(180deg, rgba(4, 6, 10, 0.92) 0%, rgba(4, 6, 10, 0.85) 45%, rgba(4, 6, 10, 0.98) 100%),
+      url('/Background.png') no-repeat center top / cover;
+  }
 }
 
 /* Scanlines Texture Overlay */
 .scanlines {
   position: fixed;
   inset: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.28) 50%), 
-              linear-gradient(90deg, rgba(255, 183, 3, 0.02), rgba(0, 0, 0, 0.01), rgba(255, 183, 3, 0.02));
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
+              linear-gradient(90deg, rgba(255, 255, 255, 0.01), rgba(0, 0, 0, 0.01), rgba(255, 255, 255, 0.01));
   background-size: 100% 3px, 6px 100%;
   pointer-events: none;
   z-index: 20;
@@ -295,33 +302,26 @@
   animation: textGlitch 4.5s infinite ease-in-out;
 }
 
-/* Arena Grid Container */
+/* Arena Hero Content Container */
 .paradox-main-content {
   position: relative;
   z-index: 10;
   max-width: 1440px;
   margin: 0 auto;
-  padding: 1.5rem clamp(1.5rem, 4vw, 3.5rem);
+  padding: 1.5rem clamp(1rem, 3.5vw, 3.5rem);
   width: 100%;
   box-sizing: border-box;
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 2.5rem;
-  align-items: start;
-}
-
-@media (max-width: 980px) {
-  .paradox-main-content {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 /* Left Hero Column */
 .paradox-left-col {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: clamp(0.9rem, 2vw, 1.25rem);
+  max-width: 720px;
 }
 
 .paradox-header-tag {
@@ -335,7 +335,7 @@
   align-items: center;
   gap: 0.5rem;
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.72rem;
+  font-size: clamp(0.68rem, 1.1vw, 0.72rem);
   letter-spacing: 0.3em;
   color: #94a3b8;
   text-transform: uppercase;
@@ -350,7 +350,7 @@
 
 .paradox-eyebrow-2 {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.68rem;
+  font-size: clamp(0.64rem, 1vw, 0.68rem);
   letter-spacing: 0.4em;
   color: #64748b;
   text-transform: uppercase;
@@ -358,13 +358,14 @@
 
 .paradox-hero-title {
   font-family: 'Rajdhani', sans-serif;
-  font-size: clamp(2.9rem, 6.0vw, 5.4rem);
+  font-size: clamp(2.3rem, 6.5vw, 5.4rem);
   font-weight: 900;
   font-style: italic;
   letter-spacing: -0.02em;
   text-transform: uppercase;
-  line-height: 0.92;
+  line-height: 0.95;
   color: #ffffff;
+  word-break: break-word;
 }
 
 .paradox-brush-title {
@@ -374,20 +375,21 @@
   color: #ffb703;
   display: inline-block;
   padding-top: 0.2rem;
+  word-break: break-word;
 }
 
 .paradox-sub-title {
   font-family: 'Rajdhani', sans-serif;
-  font-size: clamp(1.15rem, 2vw, 1.6rem);
+  font-size: clamp(0.95rem, 2.2vw, 1.6rem);
   font-weight: 700;
-  letter-spacing: 0.24em;
+  letter-spacing: clamp(0.08em, 1.2vw, 0.24em);
   text-transform: uppercase;
   color: #f1f5f9;
   margin-top: 0.4rem;
 }
 
 .paradox-desc {
-  max-width: 480px;
+  max-width: 580px;
   font-family: 'Share Tech Mono', monospace;
   font-size: clamp(0.78rem, 1.1vw, 0.88rem);
   color: #cbd5e1;
@@ -397,22 +399,22 @@
 .paradox-actions {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1rem;
   flex-wrap: wrap;
-  padding-top: 0.5rem;
+  padding-top: 0.35rem;
 }
 
 .btn-paradox-resume {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.85rem 1.85rem;
+  padding: 0.8rem clamp(1.2rem, 3vw, 1.85rem);
   background: #ffb703;
   color: #04060a;
   font-family: 'Chakra Petch', sans-serif;
   font-weight: 900;
-  font-size: 0.85rem;
-  letter-spacing: 0.14em;
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   border-radius: 999px;
   text-decoration: none;
@@ -420,12 +422,17 @@
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   border: none;
+  max-width: 100%;
 }
 
 .btn-paradox-resume:hover {
   background: #ffe66d;
   box-shadow: 0 0 50px rgba(251, 191, 36, 0.95);
   transform: translateY(-2px);
+}
+
+.btn-paradox-resume:active {
+  transform: translateY(0);
 }
 
 .resume-arrow-icon {
@@ -437,6 +444,7 @@
   align-items: center;
   justify-content: center;
   font-weight: 900;
+  flex-shrink: 0;
 }
 
 .paradox-scroll-hint {
@@ -448,7 +456,6 @@
   letter-spacing: 0.2em;
   color: #64748b;
   text-transform: uppercase;
-  padding-top: 0.25rem;
 }
 
 .mouse-pill {
@@ -460,6 +467,7 @@
   align-items: flex-start;
   justify-content: center;
   padding: 2px;
+  flex-shrink: 0;
 }
 
 .mouse-wheel {
@@ -485,146 +493,6 @@
   letter-spacing: 0.1em;
 }
 
-/* Right Column: Telemetry & Neon Signs */
-.paradox-right-col {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 1.5rem;
-}
-
-@media (max-width: 980px) {
-  .paradox-right-col {
-    align-items: flex-start;
-  }
-}
-
-.paradox-telemetry-card {
-  background: rgba(4, 6, 10, 0.75);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 1rem 1.25rem;
-  width: 260px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-}
-
-.telemetry-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.68rem;
-  color: #94a3b8;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-.ping-wrap {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-}
-
-.ping-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #34d399;
-  box-shadow: 0 0 10px #34d399;
-  animation: pingPulse 2s infinite ease-in-out;
-}
-
-@keyframes pingPulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.4); opacity: 0.6; }
-}
-
-.telemetry-bottom {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-}
-
-.player-count-num {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 2rem;
-  font-weight: 900;
-  color: #ffffff;
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-
-.equalizer-bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 2.5px;
-  height: 28px;
-}
-
-.eq-bar {
-  width: 3.5px;
-  background: rgba(52, 211, 153, 0.85);
-  border-radius: 2px 2px 0 0;
-  transition: height 0.15s ease;
-}
-
-.paradox-signs {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 1rem;
-  font-family: 'Share Tech Mono', monospace;
-}
-
-.sign-box-1 {
-  background: rgba(4, 6, 10, 0.55);
-  backdrop-filter: blur(10px);
-  border-right: 2px solid rgba(255, 183, 3, 0.85);
-  padding: 0.75rem 1rem;
-  max-width: 220px;
-  text-align: left;
-}
-
-.sign-box-1 p:first-child {
-  color: #ffb703;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-}
-
-.sign-box-1 p:nth-child(2) {
-  color: #cbd5e1;
-  font-size: 0.72rem;
-  font-weight: 500;
-}
-
-.sign-box-2 {
-  font-size: 0.72rem;
-  color: #94a3b8;
-  letter-spacing: 0.08em;
-  text-align: right;
-}
-
-.sign-box-2 .highlight {
-  color: rgba(255, 183, 3, 0.9);
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.sign-box-3 {
-  font-size: 0.7rem;
-  color: #94a3b8;
-  letter-spacing: 0.08em;
-  background: rgba(4, 6, 10, 0.45);
-  padding: 0.5rem 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 6px;
-  text-align: left;
-}
-
 /* ==========================================================================
    BOTTOM LEVEL TRAIL DOCK (7 3D PERSPECTIVE DECK CARDS)
    ========================================================================== */
@@ -634,7 +502,7 @@
   width: 100%;
   max-width: 1440px;
   margin: 1.5rem auto 0;
-  padding: 1rem clamp(1.5rem, 4vw, 3.5rem);
+  padding: 1rem clamp(1rem, 3.5vw, 3.5rem);
   box-sizing: border-box;
 }
 
@@ -642,10 +510,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem;
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.72rem;
+  font-size: clamp(0.68rem, 1.2vw, 0.72rem);
   text-transform: uppercase;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.2em;
   color: #94a3b8;
   margin-bottom: 0.85rem;
 }
@@ -653,7 +523,8 @@
 .trail-dock-title {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .trail-dock-title .title-bold {
@@ -662,7 +533,7 @@
 }
 
 .trail-dock-title .title-divider {
-  width: 24px;
+  width: 20px;
   height: 1px;
   background: rgba(255, 183, 3, 0.5);
 }
@@ -677,14 +548,57 @@
   transform-style: preserve-3d;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 0.85rem;
+  gap: 0.75rem;
   margin-bottom: 1rem;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1100px) and (min-width: 769px) {
   .cards-deck-perspective {
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 0.75rem;
+    perspective: none;
+  }
+  .trail-card {
+    transform: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-deck-perspective {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem;
+    perspective: none;
+  }
+
+  .trail-card {
+    transform: none !important;
+    padding: 0.75rem 0.65rem;
+  }
+
+  /* 7th Boss Joker Card spans across 2 columns as a highlight banner */
+  .trail-card.trail-card-joker {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    padding: 0.85rem 1.15rem;
+  }
+
+  .trail-card-joker .trail-card-top {
+    margin-bottom: 0;
+    order: 1;
+  }
+
+  .trail-card-joker .trail-card-name {
+    order: 2;
+    font-size: 0.82rem;
+    color: #f3e8ff;
+  }
+
+  .trail-card-joker .trail-card-glyph {
+    order: 3;
+    padding: 0;
   }
 }
 
@@ -705,10 +619,14 @@
 }
 
 .trail-card:hover {
-  transform: translateY(-12px) scale(1.06) !important;
+  transform: translateY(-10px) scale(1.04) !important;
   z-index: 40 !important;
   border-color: rgba(255, 183, 3, 0.6);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 183, 3, 0.3);
+}
+
+.trail-card:active {
+  transform: scale(0.97) !important;
 }
 
 .active-gold-card {
@@ -732,9 +650,9 @@
 }
 
 .trail-card-glyph {
-  font-size: 1.5rem;
+  font-size: clamp(1.3rem, 3.5vw, 1.5rem);
   line-height: 1;
-  padding: 0.4rem 0;
+  padding: 0.35rem 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -742,7 +660,7 @@
 
 .trail-card-name {
   font-family: 'Rajdhani', sans-serif;
-  font-size: 0.72rem;
+  font-size: clamp(0.68rem, 1.8vw, 0.72rem);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -826,11 +744,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem;
   font-family: 'Share Tech Mono', monospace;
   font-size: 0.68rem;
   color: #64748b;
-  padding-top: 0.5rem;
+  padding-top: 0.75rem;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 600px) {
+  .paradox-NISB-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
 }
 
 .NISB-brand-tag {
@@ -1063,6 +991,42 @@
   cursor: not-allowed;
 }
 
+@media (max-width: 600px) {
+  .paradox-modal-overlay {
+    padding: 1rem 0.75rem;
+  }
+  .paradox-modal-window {
+    padding: 1.25rem 1rem;
+    max-width: 95vw;
+    margin: 0 auto;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-head {
+    gap: 0.75rem;
+    padding-bottom: 0.85rem;
+  }
+  .modal-suit-icon {
+    font-size: 1.8rem;
+  }
+  .modal-meta-title {
+    font-size: 1.25rem;
+  }
+  .modal-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  .modal-foot {
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+  }
+  .btn-modal-cancel, .btn-modal-action {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -1193,7 +1157,7 @@ body {
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .btn-audio {
@@ -1209,6 +1173,7 @@ body {
   align-items: center;
   gap: 0.4rem;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .btn-audio:hover {
@@ -1238,6 +1203,7 @@ body {
   align-items: center;
   gap: 0.4rem;
   transition: all 0.25s ease;
+  white-space: nowrap;
 }
 
 .btn-enter-trail:hover {
@@ -1245,6 +1211,141 @@ body {
   color: #08090d;
   box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
   transform: translateY(-1px);
+}
+
+/* Mobile Hamburger Menu Button */
+.btn-mobile-menu {
+  display: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 0.45rem 0.5rem;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  transition: all 0.2s ease;
+  z-index: 101;
+}
+
+.btn-mobile-menu:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--border-glow);
+}
+
+.btn-mobile-menu .menu-bar {
+  width: 18px;
+  height: 2px;
+  background: var(--text-main);
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-mobile-menu.open .menu-bar:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.btn-mobile-menu.open .menu-bar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.btn-mobile-menu.open .menu-bar:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Mobile Drawer Overlay */
+.nav-mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 95;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.nav-mobile-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Responsive Top Navigation Rules */
+@media (max-width: 900px) {
+  .btn-mobile-menu {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 72px;
+    right: 0;
+    width: min(280px, 80vw);
+    height: calc(100vh - 72px);
+    background: rgba(8, 10, 16, 0.97);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-left: 1px solid var(--border-subtle);
+    padding: 1.5rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 98;
+    overflow-y: auto;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
+  }
+
+  .nav-links.mobile-open {
+    transform: translateX(0);
+  }
+
+  .nav-item {
+    width: 100%;
+    padding: 0.75rem 0.85rem;
+    font-size: 0.82rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-item.active {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.3);
+  }
+
+  .nav-item.active::after {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-nav {
+    padding: 0 1rem;
+  }
+
+  .brand-mark small {
+    display: none;
+  }
+
+  .btn-audio #audioText {
+    display: none;
+  }
+
+  .btn-audio {
+    padding: 0.45rem 0.55rem;
+  }
+
+  .btn-enter-trail {
+    font-size: 0.7rem;
+    padding: 0.45rem 0.75rem;
+  }
 }
 
 /* ==========================================================================
@@ -1848,16 +1949,12 @@ body {
   opacity: 1;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments for gameplay views */
 @media (max-width: 900px) {
-
   .trail-item {
     grid-template-columns: 50px 45px 1fr 30px;
   }
   .trail-badge {
-    display: none;
-  }
-  .nav-links {
     display: none;
   }
 }
