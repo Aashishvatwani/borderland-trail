@@ -45,9 +45,8 @@ async function connectMongo() {
     await client.connect();
     db = client.db(dbName);
     const roundsCol = db.collection('rounds');
-    if ((await roundsCol.countDocuments()) === 0) {
-      await roundsCol.insertMany(seed);
-      console.log('Seeded rounds collection in MongoDB Atlas.');
+    for (const r of seed) {
+      await roundsCol.updateOne({ slug: r.slug }, { $set: r }, { upsert: true });
     }
     const teamsCol = db.collection('teams');
     if ((await teamsCol.countDocuments()) === 0 && dummyTeams.length > 0) {
@@ -262,73 +261,27 @@ createServer(async (req, res) => {
           if (teamName) await updateProgress(teamName, 'card-hunt', Math.floor(Date.now() / 1000));
           return json(res, 200, { ok: true, message: 'COORDINATES VERIFIED' });
         }
-        return json(res, 200, { ok: false, error: 'Station cipher incorrect. Reread the riddle: "Where north meets the tower..."' });
+        return json(res, 200, { ok: false, error: 'Station cipher incorrect.' });
       }
 
-      // 2. DIAMONDS
+      // 2. DIAMONDS (Physical Round)
       if (round === 'diamonds') {
-        const cardKey = String(body.card || '').trim().toUpperCase();
-        const inputAnswer = String(body.answer || '').trim();
-        const cardSecret = SECRETS['diamonds'][cardKey];
-
-        if (!cardSecret) {
-          return json(res, 404, { ok: false, error: 'Unknown challenge card.' });
-        }
-
-        if (cardSecret.answer === inputAnswer) {
-          if (cardSecret.final && teamName) {
-            await updateProgress(teamName, 'diamonds', Math.floor(Date.now() / 1000));
-          }
-          return json(res, 200, {
-            ok: true,
-            genuine: cardSecret.genuine,
-            reveal: cardSecret.reveal,
-            clue: cardSecret.clue,
-            next: cardSecret.next,
-            final: Boolean(cardSecret.final)
-          });
-        }
-        return json(res, 200, { ok: false, error: 'Incorrect calculation. Check operator precedence: ▲ (+) ● (×) ■ (-) ★ (÷)' });
-      }
-
-      // 3. HEARTS - GRID
-      if (round === 'hearts-grid') {
-        const { arrangement } = body;
-        if (!Array.isArray(arrangement) || arrangement.length !== 5) {
-          return json(res, 200, { ok: false, error: 'All 5 seats must be assigned.' });
-        }
-
-        const correctArr = SECRETS['hearts'].arrangement;
-        const arrMatch = correctArr.every((expected, idx) => {
-          const userSeat = arrangement[idx];
-          return userSeat &&
-            userSeat.p?.toLowerCase() === expected.p.toLowerCase() &&
-            userSeat.o?.toLowerCase() === expected.o.toLowerCase() &&
-            userSeat.g?.toLowerCase() === expected.g.toLowerCase();
+        if (teamName) await updateProgress(teamName, 'diamonds', Math.floor(Date.now() / 1000));
+        return json(res, 200, {
+          ok: true,
+          genuine: true,
+          final: true,
+          message: 'DIAMONDS PHYSICAL TRIAL CONFIRMED'
         });
-
-        if (!arrMatch) {
-          return json(res, 200, { ok: false, error: 'Arrangement conflict. Check seat clues (e.g. Ruby+Locket=6, Topaz & Key at opposite ends).' });
-        }
-
-        return json(res, 200, { ok: true, message: 'Arrangement verified!' });
       }
 
-      // 3B. HEARTS - TRUST CHECK
-      if (round === 'hearts-trust') {
-        const { answers } = body;
-        const expected = SECRETS['hearts'].trust;
-        if (!Array.isArray(answers) || answers.length !== expected.length) {
-          return json(res, 200, { ok: false, error: 'All trust questions must be answered.' });
-        }
-
-        const passed = expected.every((val, idx) => String(answers[idx]).toUpperCase() === val);
-        if (!passed) {
-          return json(res, 200, { ok: false, error: 'Trust check failed. Recheck the statements against the 5-seat arrangement.' });
-        }
-
+      // 3. HEARTS (Physical Round)
+      if (round === 'hearts' || round === 'hearts-grid' || round === 'hearts-trust') {
         if (teamName) await updateProgress(teamName, 'hearts', Math.floor(Date.now() / 1000));
-        return json(res, 200, { ok: true, message: 'HEART SIGNAL EARNED' });
+        return json(res, 200, {
+          ok: true,
+          message: 'HEARTS PHYSICAL TRIAL CONFIRMED'
+        });
       }
 
       // 4. SPADES - STEP

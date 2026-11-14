@@ -206,16 +206,12 @@
 
 .curtain-tag {
   font-family: var(--mono);
-  font-size: clamp(0.75rem, 1.4vw, 0.92rem);
+  font-size: clamp(0.75rem, 1.3vw, 0.9rem);
   color: var(--gold-warm);
-  letter-spacing: 0.16em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  padding: 0.45rem 1.35rem;
-  border-radius: 999px;
   display: inline-block;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+  text-shadow: 0 0 16px rgba(212, 175, 55, 0.3);
 }
 
 /* Scroll-Driven Reveal Utilities */
@@ -237,7 +233,7 @@
 .reveal-delay-4 { transition-delay: 0.32s; }
 
 /* ==========================================================================
-   BT-26: SURVIVE THE PARADOX // MASTER ARENA HERO & TRAIL STYLING
+   BT-26: SURVIVE THE PARADOX — MASTER ARENA HERO & TRAIL STYLING
    ========================================================================== */
 
 .paradox-overview-wrapper {
@@ -324,36 +320,29 @@
   max-width: 720px;
 }
 
-.paradox-header-tag {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.paradox-eyebrow-1 {
+.hero-brand-line {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.65rem;
   font-family: 'Share Tech Mono', monospace;
-  font-size: clamp(0.68rem, 1.1vw, 0.72rem);
-  letter-spacing: 0.3em;
+  font-size: clamp(0.7rem, 1.1vw, 0.76rem);
+  letter-spacing: 0.28em;
   color: #94a3b8;
   text-transform: uppercase;
 }
 
-.paradox-eyebrow-1 .tag-dot {
-  width: 6px;
-  height: 6px;
-  background: #ffb703;
-  box-shadow: 0 0 8px #ffb703;
+.hero-brand-org {
+  color: #64748b;
 }
 
-.paradox-eyebrow-2 {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: clamp(0.64rem, 1vw, 0.68rem);
-  letter-spacing: 0.4em;
-  color: #64748b;
-  text-transform: uppercase;
+.hero-brand-sep {
+  color: #ffb703;
+  font-size: 0.85rem;
+}
+
+.hero-brand-event {
+  color: #cbd5e1;
+  font-weight: 600;
 }
 
 .paradox-hero-title {
@@ -1381,21 +1370,19 @@ body {
 
 .page-eyebrow {
   font-family: var(--mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.2em;
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+  font-weight: 600;
   text-transform: uppercase;
   color: var(--gold-warm);
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   margin-bottom: 0.75rem;
 }
 
 .page-eyebrow::before {
-  content: '';
-  width: 14px;
-  height: 2px;
-  background: currentColor;
+  display: none;
 }
 
 .page-title {
@@ -1505,10 +1492,6 @@ body {
   font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 0.35rem 0.8rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-subtle);
   color: var(--text-muted);
 }
 
@@ -1972,3 +1955,111 @@ body {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* ==========================================================================
+   JOKER TWO-PART STRUCTURE PHASE TRACKER
+   ========================================================================== */
+.joker-phase-tracker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.phase-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem 1.4rem;
+  border-radius: 8px;
+  background: rgba(15, 17, 26, 0.7);
+  border: 1px solid var(--border-subtle);
+  min-width: 240px;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.phase-step.active {
+  border-color: var(--joker);
+  background: rgba(245, 158, 11, 0.08);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.15);
+}
+
+.phase-step.completed {
+  border-color: var(--club);
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.phase-step.locked {
+  opacity: 0.45;
+  filter: grayscale(0.6);
+}
+
+.phase-step .step-num {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+}
+
+.phase-step.active .step-num {
+  color: var(--joker);
+}
+
+.phase-step.completed .step-num {
+  color: var(--club);
+}
+
+.phase-step .step-title {
+  font-family: var(--display);
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 0.02em;
+}
+
+.phase-step .step-badge {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+.phase-step.active .step-badge {
+  color: var(--joker);
+}
+
+.phase-step.completed .step-badge {
+  color: var(--club);
+}
+
+.phase-arrow {
+  color: var(--text-dim);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   PHYSICAL ROUND HERO EMBLEM
+   ========================================================================== */
+.physical-round-emblem {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 1.5rem auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  animation: subtle-pulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes subtle-pulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+

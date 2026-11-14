@@ -6,13 +6,13 @@ const root = fileURLToPath(new URL('..', import.meta.url));
 
 // In-memory / Fallback Database Seed Data
 const seedRounds = [
-  { "id": 1, "title": "Formation", "slug": "formation", "subtitle": "Find Your People", "suit": "♦", "order": 1 },
+  { "id": 1, "title": "Formation", "slug": "formation", "subtitle": "Find Your People (Team Registration)", "suit": "♦", "order": 1 },
   { "id": 2, "title": "Card Hunt", "slug": "card-hunt", "subtitle": "Riddle & Station Cipher", "suit": "♠", "order": 2 },
-  { "id": 3, "title": "Diamonds", "slug": "diamonds", "subtitle": "The Exit Code (Math & Logic)", "suit": "♦", "order": 3 },
-  { "id": 4, "title": "Hearts", "slug": "hearts", "subtitle": "The Human Chain (Psychology & Trust)", "suit": "♥", "order": 4 },
+  { "id": 3, "title": "Diamonds", "slug": "diamonds", "subtitle": "Physical Trial (On-Site)", "suit": "♦", "order": 3 },
+  { "id": 4, "title": "Hearts", "slug": "hearts", "subtitle": "Physical Trial (On-Site)", "suit": "♥", "order": 4 },
   { "id": 5, "title": "Spades", "slug": "spades", "subtitle": "The Field Signal (Physical Waypoints)", "suit": "♠", "order": 5 },
-  { "id": 6, "title": "Clubs", "slug": "clubs", "subtitle": "The War Room (Communication Relay)", "suit": "♣", "order": 6 },
-  { "id": 7, "title": "The Joker", "slug": "joker", "subtitle": "Final Paradox (Escape Code)", "suit": "🃏", "order": 7 }
+  { "id": 6, "title": "Clubs", "slug": "clubs", "subtitle": "The War Room (100% Website-Driven)", "suit": "♣", "order": 6 },
+  { "id": 7, "title": "The Joker", "slug": "joker", "subtitle": "Final Paradox (Part 1: Web / Part 2: Physical)", "suit": "🃏", "order": 7 }
 ];
 
 let memoryTeams = [
@@ -70,8 +70,8 @@ async function getDb() {
 
     // Ensure collections seeded
     const roundsCol = cachedDb.collection('rounds');
-    if ((await roundsCol.countDocuments()) === 0) {
-      await roundsCol.insertMany(seedRounds);
+    for (const r of seedRounds) {
+      await roundsCol.updateOne({ slug: r.slug }, { $set: r }, { upsert: true });
     }
     const teamsCol = cachedDb.collection('teams');
     if ((await teamsCol.countDocuments()) === 0 && memoryTeams.length > 0) {
@@ -283,70 +283,27 @@ export default async function handler(req, res) {
         if (teamName) await updateProgress(teamName, 'card-hunt', Math.floor(Date.now() / 1000));
         return sendJson(res, 200, { ok: true, message: 'COORDINATES VERIFIED' });
       }
-      return sendJson(res, 200, { ok: false, error: 'Station cipher incorrect. Reread the riddle: "Where north meets the tower..."' });
+      return sendJson(res, 200, { ok: false, error: 'Station cipher incorrect.' });
     }
 
-    // 2. DIAMONDS
+    // 2. DIAMONDS (Physical Round)
     if (round === 'diamonds') {
-      const cardKey = String(body.card || '').trim().toUpperCase();
-      const inputAnswer = String(body.answer || '').trim();
-      const cardSecret = SECRETS['diamonds'][cardKey];
-
-      if (!cardSecret) {
-        return sendJson(res, 404, { ok: false, error: 'Unknown challenge card.' });
-      }
-
-      if (cardSecret.answer === inputAnswer) {
-        if (cardSecret.final && teamName) {
-          await updateProgress(teamName, 'diamonds', Math.floor(Date.now() / 1000));
-        }
-        return sendJson(res, 200, {
-          ok: true,
-          genuine: cardSecret.genuine,
-          reveal: cardSecret.reveal,
-          clue: cardSecret.clue,
-          next: cardSecret.next,
-          final: Boolean(cardSecret.final)
-        });
-      }
-      return sendJson(res, 200, { ok: false, error: 'Incorrect calculation. Check operator precedence: ▲ (+) ● (×) ■ (-) ★ (÷)' });
-    }
-
-    // 3. HEARTS GRID
-    if (round === 'hearts-grid') {
-      const { arrangement } = body;
-      if (!Array.isArray(arrangement) || arrangement.length !== 5) {
-        return sendJson(res, 200, { ok: false, error: 'All 5 seats must be assigned.' });
-      }
-
-      const correctArr = SECRETS['hearts'].arrangement;
-      const arrMatch = correctArr.every((expected, idx) => {
-        const userSeat = arrangement[idx];
-        return userSeat &&
-          userSeat.p?.toLowerCase() === expected.p.toLowerCase() &&
-          userSeat.o?.toLowerCase() === expected.o.toLowerCase() &&
-          userSeat.g?.toLowerCase() === expected.g.toLowerCase();
+      if (teamName) await updateProgress(teamName, 'diamonds', Math.floor(Date.now() / 1000));
+      return sendJson(res, 200, {
+        ok: true,
+        genuine: true,
+        final: true,
+        message: 'DIAMONDS PHYSICAL TRIAL CONFIRMED'
       });
-
-      if (!arrMatch) {
-        return sendJson(res, 200, { ok: false, error: 'Arrangement conflict. Check seat clues.' });
-      }
-      return sendJson(res, 200, { ok: true, message: 'Arrangement verified!' });
     }
 
-    // 3B. HEARTS TRUST
-    if (round === 'hearts-trust') {
-      const { answers } = body;
-      const expected = SECRETS['hearts'].trust;
-      if (!Array.isArray(answers) || answers.length !== expected.length) {
-        return sendJson(res, 200, { ok: false, error: 'All trust questions must be answered.' });
-      }
-      const passed = expected.every((val, idx) => String(answers[idx]).toUpperCase() === val);
-      if (!passed) {
-        return sendJson(res, 200, { ok: false, error: 'Trust check failed. Recheck the statements against the 5-seat arrangement.' });
-      }
+    // 3. HEARTS (Physical Round)
+    if (round === 'hearts' || round === 'hearts-grid' || round === 'hearts-trust') {
       if (teamName) await updateProgress(teamName, 'hearts', Math.floor(Date.now() / 1000));
-      return sendJson(res, 200, { ok: true, message: 'HEART SIGNAL EARNED' });
+      return sendJson(res, 200, {
+        ok: true,
+        message: 'HEARTS PHYSICAL TRIAL CONFIRMED'
+      });
     }
 
     // 4. SPADES STEP

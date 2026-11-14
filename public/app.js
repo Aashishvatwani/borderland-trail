@@ -52,7 +52,7 @@
   // 3. Suppress inspection via Console warning
   if (typeof console !== 'undefined') {
     console.log(
-      '%c⚠️ BORDERLAND TRAIL // NISB ARENA ACTIVE',
+      '%c⚠️ BORDERLAND TRAIL · NISB ARENA ACTIVE',
       'color:#ffb703; font-size:18px; font-weight:900; text-shadow:0 0 10px #ffb703;'
     );
     console.log(
@@ -184,13 +184,13 @@ const activeTimers = {
 // STRICT LEVEL-BY-LEVEL PROGRESSION SYSTEM
 // ==========================================================================
 const LEVELS = [
-  { id: 'formation', num: 1, title: 'Formation ("Find Your People")', badge: 'formation' },
+  { id: 'formation', num: 1, title: 'Formation (Team Registration)', badge: 'formation' },
   { id: 'card-hunt', num: 2, title: 'Riddle & Card Hunt', badge: 'hunt' },
-  { id: 'diamonds', num: 3, title: '♦ Diamonds (The Exit Code)', badge: 'diamonds' },
-  { id: 'hearts', num: 4, title: '♥ Hearts (The Human Chain)', badge: 'hearts' },
+  { id: 'diamonds', num: 3, title: '♦ Diamonds (Physical Trial)', badge: 'diamonds' },
+  { id: 'hearts', num: 4, title: '♥ Hearts (Physical Trial)', badge: 'hearts' },
   { id: 'spades', num: 5, title: '♠ Spades (The Field Signal)', badge: 'spades' },
-  { id: 'clubs', num: 6, title: '♣ Clubs (The War Room)', badge: 'clubs' },
-  { id: 'joker', num: 7, title: '🃏 Final Paradox (The Joker)', badge: 'joker' },
+  { id: 'clubs', num: 6, title: '♣ Clubs (Website-Driven)', badge: 'clubs' },
+  { id: 'joker', num: 7, title: '🃏 Final Paradox (Two-Part Finale)', badge: 'joker' },
   { id: 'leaderboard', num: 8, title: 'Arena Leaderboard', badge: null }
 ];
 
@@ -224,12 +224,12 @@ function isLevelUnlocked(route) {
 }
 
 function getPrerequisite(route) {
-  if (route === 'card-hunt') return { num: 1, title: 'Formation ("Find Your People")' };
+  if (route === 'card-hunt') return { num: 1, title: 'Formation (Team Registration)' };
   if (route === 'diamonds') return { num: 2, title: 'Riddle & Card Hunt' };
-  if (route === 'hearts') return { num: 3, title: '♦ Diamonds Trial' };
-  if (route === 'spades') return { num: 4, title: '♥ Hearts Trial' };
+  if (route === 'hearts') return { num: 3, title: '♦ Diamonds (Physical Trial)' };
+  if (route === 'spades') return { num: 4, title: '♥ Hearts (Physical Trial)' };
   if (route === 'clubs') return { num: 5, title: '♠ Spades Trial' };
-  if (route === 'joker') return { num: 6, title: '♣ Clubs Trial' };
+  if (route === 'joker') return { num: 6, title: '♣ Clubs (Website-Driven)' };
   return null;
 }
 
@@ -343,14 +343,14 @@ const pageRoot = document.querySelector('#pageRoot');
 const routeMeta = {
   '': { suit: 'BT', title: 'THE BORDERLAND TRAIL', tag: 'NISB MULTI-ROUND TEAM ARENA', color: 'var(--acid)' },
   'home': { suit: 'BT', title: 'THE BORDERLAND TRAIL', tag: 'NISB MULTI-ROUND TEAM ARENA', color: 'var(--acid)' },
-  'formation': { suit: '01', title: 'FIND YOUR PEOPLE', tag: 'PHASE 01 // CREW ASSEMBLY', color: 'var(--acid)' },
-  'card-hunt': { suit: '02', title: 'RIDDLE & CARD HUNT', tag: 'PHASE 02 // SUIT ROUTE CIPHER', color: '#fff' },
-  'diamonds': { suit: '♦', title: 'THE EXIT CODE', tag: 'TRIAL 01 // MATHEMATICS & LOGIC', color: 'var(--diamond)' },
-  'hearts': { suit: '♥', title: 'THE HUMAN CHAIN', tag: 'TRIAL 02 // PSYCHOLOGY & TRUST', color: 'var(--heart)' },
-  'spades': { suit: '♠', title: 'THE FIELD SIGNAL', tag: 'TRIAL 03 // PHYSICAL WAYPOINTS', color: 'var(--spade)' },
-  'clubs': { suit: '♣', title: 'THE WAR ROOM', tag: 'TRIAL 04 // COMMUNICATION & RELAY', color: 'var(--club)' },
-  'joker': { suit: '🃏', title: 'FINAL PARADOX', tag: 'THE FINALE // MEMORY & ESCAPE', color: 'var(--joker)' },
-  'leaderboard': { suit: '🏆', title: 'ARENA LEADERBOARD', tag: 'LIVE CREW STANDINGS & CHEAT SHEET', color: '#fff' }
+  'formation': { suit: '01', title: 'FIND YOUR PEOPLE', tag: 'LEVEL 01 · TEAM REGISTRATION', color: 'var(--acid)' },
+  'card-hunt': { suit: '02', title: 'RIDDLE & CARD HUNT', tag: 'LEVEL 02 · DIRECTIONAL CIPHER', color: '#fff' },
+  'diamonds': { suit: '♦', title: 'DIAMONDS TRIAL', tag: 'LEVEL 03 · PHYSICAL ROUND ONLY', color: 'var(--diamond)' },
+  'hearts': { suit: '♥', title: 'HEARTS TRIAL', tag: 'LEVEL 04 · PHYSICAL ROUND ONLY', color: 'var(--heart)' },
+  'spades': { suit: '♠', title: 'THE FIELD SIGNAL', tag: 'LEVEL 05 · PHYSICAL WAYPOINTS', color: 'var(--spade)' },
+  'clubs': { suit: '♣', title: 'THE WAR ROOM', tag: 'LEVEL 06 · 100% WEBSITE-DRIVEN', color: 'var(--club)' },
+  'joker': { suit: '🃏', title: 'FINAL PARADOX', tag: 'LEVEL 07 · TWO-PART FINALE (WEB + PHYSICAL)', color: 'var(--joker)' },
+  'leaderboard': { suit: '🏆', title: 'ARENA LEADERBOARD', tag: 'LIVE CREW STANDINGS', color: '#fff' }
 };
 
 let isNavigating = false;
@@ -554,9 +554,9 @@ function renderHomeView() {
     {
       num: 1,
       id: 'formation',
-      title: 'ARENA HERO',
+      title: 'CREW ASSEMBLY',
       suit: '♦',
-      desc: 'Master fundamental team assembly & interactive clue sequencing in the primary arena.',
+      desc: 'Physical clue cards distributed at venue. Form your 5-member crew and register on the website.',
       reward: '+500 ARENA PTS',
       rot: '-6deg',
       tz: '10px'
@@ -566,7 +566,7 @@ function renderHomeView() {
       id: 'card-hunt',
       title: 'THE LINK',
       suit: '♥',
-      desc: 'Synchronize dual frequency cipher patterns and directional campus clues.',
+      desc: 'Solve opening directional riddle without hints to recover the Four Suit Route Pack.',
       reward: '+600 ARENA PTS',
       rot: '-3deg',
       tz: '5px'
@@ -574,9 +574,9 @@ function renderHomeView() {
     {
       num: 3,
       id: 'diamonds',
-      title: 'MEMORY GRID',
-      suit: '♠',
-      desc: 'Mathematics & logic: 20 challenge cards, 14 decoys, symbol operators & Caesar cipher.',
+      title: 'DIAMONDS TRIAL',
+      suit: '♦',
+      desc: 'Physical Round: Conducted entirely on-site at the venue. Challenge cards and tasks administered offline.',
       reward: 'DIAMOND SIGNAL',
       rot: '-1deg',
       tz: '0px'
@@ -584,9 +584,9 @@ function renderHomeView() {
     {
       num: 4,
       id: 'hearts',
-      title: 'LOGIC RUN',
-      suit: '♣',
-      desc: 'Psychology & trust: 4 sealed teammate envelopes, 5-seat logic grid & trust verification.',
+      title: 'HEARTS TRIAL',
+      suit: '♥',
+      desc: 'Physical Round: Conducted entirely on-site at the venue. Teammate envelopes and tasks administered offline.',
       reward: 'HEART SIGNAL',
       rot: '0deg',
       tz: '0px'
@@ -604,9 +604,9 @@ function renderHomeView() {
     {
       num: 6,
       id: 'clubs',
-      title: 'MIND TRAP',
-      suit: '♥',
-      desc: 'Cooperative war room: Command relay sequencing, 72 MHz tuner & counter protocol.',
+      title: 'THE WAR ROOM',
+      suit: '♣',
+      desc: '100% Website-Driven: Command relay sequencing, 72 MHz tuner calibration & counter-protocol.',
       reward: 'CLUB SIGNAL',
       rot: '3deg',
       tz: '5px'
@@ -616,7 +616,7 @@ function renderHomeView() {
       id: 'joker',
       title: 'THE JOKER',
       suit: '★',
-      desc: 'Face the Grand Architect of the Paradox. 20×20 floor grid, memory stack & escape code 1536.',
+      desc: 'Two-Part Finale: Part 1 is website-driven (20×20 floor grid), followed by Part 2 in the physical arena.',
       reward: 'PARADOX ASCENSION',
       rot: '6deg',
       tz: '10px',
@@ -644,15 +644,11 @@ function renderHomeView() {
         <!-- Main Hero Content -->
         <div class="paradox-main-content">
           <div class="paradox-left-col">
-            <!-- Header Tag -->
-            <div class="paradox-header-tag">
-              <div class="paradox-eyebrow-1">
-                <span class="tag-dot"></span>
-                <span>BORDERLAND TRAIL ARENA</span>
-              </div>
-              <div class="paradox-eyebrow-2">
-                NISB PRESENTS
-              </div>
+            <!-- Hero Brand Line -->
+            <div class="hero-brand-line">
+              <span class="hero-brand-org">NISB PRESENTS</span>
+              <span class="hero-brand-sep">•</span>
+              <span class="hero-brand-event">BORDERLAND TRAIL ARENA</span>
             </div>
 
             <!-- Hero Title -->
@@ -791,7 +787,7 @@ function renderHomeView() {
             <div class="modal-stats-grid">
               <div class="modal-stat-box">
                 <span class="modal-stat-label">STATUS</span>
-                <span id="modalDiff" class="modal-stat-val active">UNLOCKED // ACTIVE</span>
+                <span id="modalDiff" class="modal-stat-val active">UNLOCKED · ACTIVE</span>
               </div>
               <div class="modal-stat-box">
                 <span class="modal-stat-label">REWARD</span>
@@ -856,7 +852,7 @@ function renderHomeView() {
 
     if (!isUnlocked) {
       const prereq = getPrerequisite(card.id);
-      modalDiff.textContent = 'STATUS: LOCKED // SEQUENCE INCOMPLETE';
+      modalDiff.textContent = 'STATUS: LOCKED · SEQUENCE INCOMPLETE';
       modalDiff.className = 'modal-stat-val locked';
       modalActionBtn.textContent = 'LEVEL LOCKED';
       modalActionBtn.disabled = true;
@@ -865,7 +861,7 @@ function renderHomeView() {
         showToast(`🔒 LEVEL LOCKED: Complete Level 0${prereq.num} (${prereq.title}) first!`);
       }
     } else {
-      modalDiff.textContent = isCleared ? 'STATUS: CLEARED // COMPLETE' : 'STATUS: UNLOCKED // READY';
+      modalDiff.textContent = isCleared ? 'STATUS: CLEARED · COMPLETE' : 'STATUS: UNLOCKED · READY';
       modalDiff.className = `modal-stat-val ${isCleared ? 'cleared' : 'active'}`;
       modalActionBtn.textContent = 'LAUNCH MISSION';
       modalActionBtn.disabled = false;
@@ -1004,67 +1000,34 @@ function renderHomeView() {
 }
 
 // --------------------------------------------------------------------------
-// VIEW: 01. FORMATION ("FIND YOUR PEOPLE")
+// VIEW: 01. FORMATION ("TEAM REGISTRATION")
 // --------------------------------------------------------------------------
-const participantClues = [
-  { icon: '🗣️', text: 'Can speak more than three languages.' },
-  { icon: '🌅', text: 'Prefers waking up early rather than staying up late.' },
-  { icon: '🗺️', text: 'Comes from a different city or state.' },
-  { icon: '🍕', text: 'Has a food combination that everyone else finds weird.' },
-  { icon: '🤝', text: "Find two people who don't know each other and introduce them." },
-  { icon: '✍️', text: "Find someone whose name you can't pronounce on the first try." },
-  { icon: '🎹', text: 'Plays a musical instrument or produces electronic music.' },
-  { icon: '⚡', text: 'Has survived a 24+ hour hackathon without sleeping.' }
-];
-
 function renderFormationView() {
-  let clueIndex = Math.floor(Math.random() * participantClues.length);
-
   pageRoot.innerHTML = `
     <div class="view-page">
       <header class="page-header">
-        <p class="page-eyebrow">LEVEL 01 // CREW ASSEMBLY</p>
+        <p class="page-eyebrow">LEVEL 01 · TEAM REGISTRATION</p>
         <h1 class="page-title">FIND YOUR<br><span style="color:var(--acid);">PEOPLE.</span></h1>
         <p class="page-desc">
-          Every participant receives an icebreaker clue card. Roam the arena, introduce yourself, find matching peers, and lock in your five-player crew to complete Level 01 and unlock the Card Hunt.
+          Formation clues are distributed physically at the venue. Find your matching peers using your physical clue cards, assemble your five-player crew, and register your team members' names below to unlock Level 02 (Riddle & Card Hunt).
         </p>
       </header>
 
       ${renderProgressHeader('formation')}
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:2rem;">
-        <!-- Virtual Physical Clue Card -->
+      <div style="max-width:680px; margin:0 auto;">
+        <!-- 5-Player Team Registration Form -->
         <div class="challenge-card" style="border-color:var(--acid);">
           <div class="challenge-top">
-            <span>PARTICIPANT CLUE PASS</span>
-            <span>CARD #${String(clueIndex + 1).padStart(2, '0')}</span>
+            <span>OFFICIAL TEAM REGISTRATION</span>
+            <span style="color:var(--acid); font-weight:700;">5-MEMBER CREW</span>
           </div>
 
-          <div style="text-align:center; padding:2rem 1rem;">
-            <div id="clueIcon" style="font-size:3.5rem; margin-bottom:1rem;">${participantClues[clueIndex].icon}</div>
-            <p style="font-family:var(--mono); font-size:0.75rem; letter-spacing:0.15em; color:var(--text-dim); text-transform:uppercase;">
-              YOUR SOCIAL DIRECTIVE
-            </p>
-            <h2 id="clueText" style="font-family:var(--sans); font-size:1.4rem; font-weight:700; margin-top:0.75rem; line-height:1.4;">
-              ${participantClues[clueIndex].text}
-            </h2>
-          </div>
+          <p style="font-family:var(--mono); font-size:0.8rem; color:var(--text-muted); margin-bottom:1.5rem; line-height:1.5;">
+            Clues are distributed physically by event coordinators. Once your crew is formed, enter your team members' details below to register in the arena database.
+          </p>
 
-          <div style="display:flex; justify-content:center; margin-top:1rem;">
-            <button type="button" class="cyber-btn" id="btnDealClue" style="background:var(--acid); color:#000;">
-              DEAL ANOTHER CLUE ↺
-            </button>
-          </div>
-        </div>
-
-        <!-- 5-Player Team Registration Form -->
-        <div class="challenge-card">
-          <div class="challenge-top">
-            <span>TEAM REGISTRATION</span>
-          
-          </div>
-
-          <form id="formationForm" style="display:flex; flex-direction:column; gap:1rem;">
+          <form id="formationForm" style="display:flex; flex-direction:column; gap:1.15rem;">
             <div>
               <label style="font-family:var(--mono); font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:0.4rem;">
                 TEAM / CREW NAME (REQUIRED)
@@ -1074,35 +1037,35 @@ function renderFormationView() {
 
             <div>
               <label style="font-family:var(--mono); font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:0.4rem;">
-                CAPTAIN / LEAD NAME
+                CAPTAIN / LEAD FULL NAME (REQUIRED)
               </label>
               <input class="cyber-input" name="captain" placeholder="Captain Full Name" required />
             </div>
 
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
               <div>
                 <label style="font-family:var(--mono); font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:0.4rem;">
-                  MEMBER 2
+                  MEMBER 2 FULL NAME (REQUIRED)
                 </label>
-                <input class="cyber-input" name="m2" placeholder="Player 2" required />
+                <input class="cyber-input" name="m2" placeholder="Player 2 Full Name" required />
               </div>
               <div>
                 <label style="font-family:var(--mono); font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:0.4rem;">
-                  MEMBER 3
+                  MEMBER 3 FULL NAME (REQUIRED)
                 </label>
-                <input class="cyber-input" name="m3" placeholder="Player 3" required />
+                <input class="cyber-input" name="m3" placeholder="Player 3 Full Name" required />
               </div>
               <div>
                 <label style="font-family:var(--mono); font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:0.4rem;">
-                  MEMBER 4
+                  MEMBER 4 FULL NAME (REQUIRED)
                 </label>
-                <input class="cyber-input" name="m4" placeholder="Player 4" required />
+                <input class="cyber-input" name="m4" placeholder="Player 4 Full Name" required />
               </div>
               <div>
                 <label style="font-family:var(--mono); font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:0.4rem;">
-                  MEMBER 5
+                  MEMBER 5 FULL NAME (REQUIRED)
                 </label>
-                <input class="cyber-input" name="m5" placeholder="Player 5" required />
+                <input class="cyber-input" name="m5" placeholder="Player 5 Full Name" required />
               </div>
             </div>
 
@@ -1113,25 +1076,16 @@ function renderFormationView() {
               <input class="cyber-input" name="contact" placeholder="crew@ieee.org" />
             </div>
 
-            <button type="submit" class="cyber-btn" id="btnRegisterTeam" style="margin-top:0.5rem;">
+            <button type="submit" class="cyber-btn" id="btnRegisterTeam" style="margin-top:0.5rem; background:var(--acid); color:#000;">
               CONFIRM CREW & CLEAR LEVEL 01 ↗
             </button>
 
-            <div id="formationFeedback" style="font-family:var(--mono); font-size:0.8rem; margin-top:0.5rem;"></div>
+            <div id="formationFeedback" style="font-family:var(--mono); font-size:0.85rem; margin-top:0.5rem;"></div>
           </form>
         </div>
       </div>
     </div>
   `;
-
-  // Deal card listener
-  const btnDealClue = document.querySelector('#btnDealClue');
-  btnDealClue?.addEventListener('click', () => {
-    audio.play('click');
-    clueIndex = (clueIndex + 1) % participantClues.length;
-    document.querySelector('#clueIcon').textContent = participantClues[clueIndex].icon;
-    document.querySelector('#clueText').textContent = participantClues[clueIndex].text;
-  });
 
   // Team registration submit listener
   const formationForm = document.querySelector('#formationForm');
@@ -1196,7 +1150,7 @@ function renderCardHuntView() {
   pageRoot.innerHTML = `
     <div class="view-page">
       <header class="page-header">
-        <p class="page-eyebrow">LEVEL 02 // RIDDLE & CARD HUNT</p>
+        <p class="page-eyebrow">LEVEL 02 · RIDDLE & CARD HUNT</p>
         <h1 class="page-title">THE UNIFIED<br><span style="color:#fff;">RIDDLE HUNT.</span></h1>
         <p class="page-desc">
           All 12 teams receive the exact same opening riddle. Crack the directional cipher to locate the opening physical cards and unlock Level 03 (♦ Diamonds Trial).
@@ -1223,7 +1177,7 @@ function renderCardHuntView() {
         <form id="huntForm" style="display:flex; flex-direction:column; gap:1rem;">
           <div>
             <label style="font-family:var(--mono); font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:0.4rem;">
-              ENTER DESTINATION CIPHER OR LANDMARK (HINT: CLOCK / TOWER / GLASS CORRIDOR)
+              ENTER DESTINATION CIPHER OR LANDMARK
             </label>
             <div style="display:flex; gap:0.5rem;">
               <input class="cyber-input" id="huntInput" placeholder="Enter landmark answer..." required autocomplete="off" />
@@ -1252,7 +1206,7 @@ function renderCardHuntView() {
         <div style="color:var(--club); background:rgba(80,250,158,0.1); padding:1rem; border-radius:4px; border:1px solid var(--club); margin-top:1rem;">
           <strong>✓ LEVEL 02 CLEARED! COORDINATES VERIFIED!</strong><br>
           You have recovered the Four Suit Route Pack.<br>
-          <strong>Level 03: ♦ Diamonds (The Exit Code) is now unlocked!</strong>
+          <strong>Level 03: ♦ Diamonds (Physical Trial) is now unlocked!</strong>
           <div style="margin-top:0.75rem;">
             <a href="#/diamonds" class="cyber-btn" style="background:var(--diamond); color:#000;" data-nav>ADVANCE TO LEVEL 03 (♦ DIAMONDS) ↗</a>
           </div>
@@ -1266,393 +1220,163 @@ function renderCardHuntView() {
 }
 
 // --------------------------------------------------------------------------
-// VIEW: 03. TRIAL ♦ DIAMONDS (THE EXIT CODE - 20 CARDS WITH 14 DECOYS)
+// VIEW: 03. TRIAL ♦ DIAMONDS (PHYSICAL ROUND)
 // --------------------------------------------------------------------------
-const diamondCards = [
-  // 6 genuine path cards
-  { card: 'ORBIT', expression: '[(18 ▲ 6) ★ 3] ● 2 ■ 5', clue: 'Clue Card 11 · Caesar cipher', genuine: true },
-  { card: 'NOVA', expression: '[((20 ● 5) ■ 16) ★ 4] ▲ 13', clue: 'Clue Card 34 · Sequence cipher', genuine: true },
-  { card: 'VECTOR', expression: '[(((45 ■ 9) ★ 4) ● 3) ▲ 6] ■ 15', clue: 'Clue Card 18 · Rearrangement', genuine: true },
-  { card: 'PULSE', expression: '[(28 ▲ 14) ★ 7] ● 5 ■ 3', clue: 'Clue Card 27 · Binary', genuine: true },
-  { card: 'ECHO', expression: '[(16 ● 6) ■ 24] ★ 4 ▲ 27', clue: 'Clue Card 45 · Find me', genuine: true },
-  { card: 'PRISM', expression: '[(((54 ▲ 18) ★ 9) ● 4) ■ 20] ▲ 4', clue: 'Clue Card 16 · Final revelation', genuine: true },
-  // 14 Decoy cards
-  { card: 'COSMOS', expression: '(14 ▲ 7) ● 2 ■ 8', clue: 'Decoy 01', genuine: false },
-  { card: 'HELIOS', expression: '[(30 ★ 5) ▲ 12] ● 2', clue: 'Decoy 02', genuine: false },
-  { card: 'SPECTRA', expression: '[(40 ■ 10) ★ 3] ▲ 15', clue: 'Decoy 03', genuine: false },
-  { card: 'VORTEX', expression: '(25 ● 2) ■ 18 ★ 2', clue: 'Decoy 04', genuine: false },
-  { card: 'MATRIX', expression: '[(12 ▲ 8) ● 3] ■ 20', clue: 'Decoy 05', genuine: false },
-  { card: 'QUANTUM', expression: '[(60 ★ 4) ▲ 9] ■ 4', clue: 'Decoy 06', genuine: false },
-  { card: 'CIPHER', expression: '(15 ● 3) ■ 15 ★ 3', clue: 'Decoy 07', genuine: false },
-  { card: 'ZENITH', expression: '[(22 ▲ 18) ★ 5] ● 7', clue: 'Decoy 08', genuine: false },
-  { card: 'RADAR', expression: '[(50 ■ 20) ★ 6] ▲ 11', clue: 'Decoy 09', genuine: false },
-  { card: 'FUSION', expression: '(8 ● 6) ▲ 12 ★ 4', clue: 'Decoy 10', genuine: false },
-  { card: 'HORIZON', expression: '[(36 ★ 6) ▲ 14] ● 2', clue: 'Decoy 11', genuine: false },
-  { card: 'QUARK', expression: '(9 ▲ 9) ● 2 ■ 6', clue: 'Decoy 12', genuine: false },
-  { card: 'NEBULA', expression: '[(48 ★ 8) ● 5] ▲ 12', clue: 'Decoy 13', genuine: false },
-  { card: 'ECLIPSE', expression: '[(70 ■ 14) ★ 7] ▲ 19', clue: 'Decoy 14', genuine: false }
-];
-
 function renderDiamondsView() {
-  let activeIndex = 0; // Starts at ORBIT
+  pageRoot.innerHTML = `
+    <div class="view-page">
+      <header class="page-header">
+        <p class="page-eyebrow" style="color:var(--diamond);">LEVEL 03 · PHYSICAL ROUND</p>
+        <h1 class="page-title">THE EXIT<br><span style="color:var(--diamond);">CODE.</span></h1>
+        <p class="page-desc">
+          This round is conducted entirely physically on-site at the venue. All challenge cards, operators, clues, and instructions are provided directly by station leads. No clues or instructions are displayed on the website.
+        </p>
+      </header>
 
-  function renderCard(idx) {
-    const item = diamondCards[idx];
-    const isFinal = item.card === 'PRISM';
+      ${renderProgressHeader('diamonds')}
 
-    pageRoot.innerHTML = `
-      <div class="view-page">
-        <header class="page-header">
-          <p class="page-eyebrow" style="color:var(--diamond);">LEVEL 03 // MATHEMATICS & LOGIC</p>
-          <h1 class="page-title">THE EXIT<br><span style="color:var(--diamond);">CODE.</span></h1>
-          <p class="page-desc">
-            Decode hidden operators, navigate through genuine cards, and escape 14 decoy traps to retrieve the Diamond Signal and unlock Level 04 (♥ Hearts).
+      <div style="max-width:720px; margin:0 auto;">
+        <div class="challenge-card" style="border-color:var(--diamond); text-align:center;">
+          <div class="challenge-top">
+            <span>♦ DIAMONDS TRIAL</span>
+            <span style="color:var(--diamond); font-weight:700;">100% PHYSICAL VENUE ROUND</span>
+          </div>
+
+          <div class="physical-round-emblem" style="background:rgba(56, 189, 248, 0.15); border:2px solid var(--diamond); color:var(--diamond);">
+            ♦
+          </div>
+
+          <h2 style="font-family:var(--display); font-size:1.6rem; color:#fff; margin-bottom:0.75rem;">
+            PHYSICAL TRIAL IN PROGRESS
+          </h2>
+
+          <p style="font-size:0.95rem; color:var(--text-muted); line-height:1.6; max-width:540px; margin:0 auto 1.5rem auto;">
+            Report to the Diamonds Station lead at the physical arena to receive your physical challenge pack. Work with your crew on-site to solve the challenge.
           </p>
-        </header>
 
-        ${renderProgressHeader('diamonds')}
-
-        <!-- Symbol Operators Lab Legend -->
-        <div style="background:rgba(98,212,255,0.06); border:1px solid rgba(98,212,255,0.2); border-radius:8px; padding:1rem 1.5rem; margin-bottom:2rem; display:flex; flex-wrap:wrap; justify-content:space-between; gap:1rem; font-family:var(--mono); font-size:0.85rem;">
-          <span>▲ Addition (+)</span>
-          <span>● Multiplication (×)</span>
-          <span>■ Subtraction (-)</span>
-          <span>★ Division (÷)</span>
-        </div>
-
-        <div style="display:grid; grid-template-columns:1.2fr 0.8fr; gap:2rem;">
-          <!-- Active Card Solver -->
-          <div class="challenge-card" style="border-color:var(--diamond);">
-            <div class="challenge-top">
-              <span>CHALLENGE CARD: <strong style="color:var(--diamond);">${item.card}</strong></span>
-              <span>${item.genuine ? 'AUTHENTIC SUIT ROUTE' : 'DECOY TRAIL'}</span>
-            </div>
-
-            <div style="text-align:center; padding:2rem 1rem;">
-              <p style="font-family:var(--mono); font-size:0.8rem; color:var(--text-dim); text-transform:uppercase;">EXPRESSION</p>
-              <div style="font-family:var(--mono); font-size:clamp(1.5rem, 3vw, 2.2rem); font-weight:700; color:var(--diamond); margin:1rem 0;">
-                ${item.expression} = ?
-              </div>
-              <p style="font-size:0.9rem; color:var(--text-muted);">
-                Solve the expression according to operator rules, then enter the clue card number below.
-              </p>
-            </div>
-
-            <form id="diamondCardForm" style="display:flex; flex-direction:column; gap:1rem; max-width:400px; margin:0 auto;">
-              <div style="display:flex; gap:0.5rem;">
-                <input class="cyber-input" id="diamondInput" placeholder="Answer..." inputmode="numeric" required autofocus autocomplete="off" />
-                <button type="submit" class="cyber-btn" style="background:var(--diamond); color:#000;">DECODE ↗</button>
-              </div>
-              <div id="diamondFeedback" style="font-family:var(--mono); font-size:0.85rem; text-align:center;"></div>
-            </form>
+          <div style="background:rgba(0,0,0,0.4); border:1px solid var(--border-subtle); border-radius:6px; padding:1rem; margin-bottom:1.75rem; font-family:var(--mono); font-size:0.8rem; color:var(--text-dim);">
+            NO WEBSITE CLUES OR PUZZLES · CONDUCTED OFFLINE AT VENUE
           </div>
 
-          <!-- 20-Card Deck Explorer -->
-          <div class="challenge-card">
-            <div class="challenge-top">
-              <span>20 CHALLENGE CARDS</span>
-              <span>6 GENUINE · 14 DECOYS</span>
-            </div>
-            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">
-              Click any challenge card in the deck to inspect its equation:
-            </p>
-            <div class="decoy-grid">
-              ${diamondCards.map((c, i) => `
-                <div class="decoy-card ${i === idx ? 'solved' : ''}" data-card-idx="${i}">
-                  <span style="font-family:var(--mono); font-size:0.65rem; color:var(--text-dim);">#${String(i + 1).padStart(2, '0')}</span>
-                  <strong style="font-family:var(--display); font-size:0.95rem; color:${i === idx ? 'var(--diamond)' : '#fff'};">${c.card}</strong>
-                  <span style="font-family:var(--mono); font-size:0.7rem; color:${c.genuine ? 'var(--diamond)' : 'var(--text-dim)'};">${c.genuine ? '♦' : '✕'}</span>
-                </div>
-              `).join('')}
-            </div>
-          </div>
+          <button type="button" class="cyber-btn" id="btnConfirmDiamonds" style="background:var(--diamond); color:#000; padding:0.85rem 1.8rem; font-size:0.95rem;">
+            CONFIRM PHYSICAL TRIAL COMPLETED ↗
+          </button>
+
+          <div id="diamondFeedback" style="font-family:var(--mono); font-size:0.9rem; margin-top:1.5rem;"></div>
         </div>
       </div>
-    `;
+    </div>
+  `;
 
-    // Deck card click listeners
-    document.querySelectorAll('.decoy-card').forEach(el => {
-      el.addEventListener('click', () => {
-        const targetIdx = Number(el.dataset.cardIdx);
-        audio.play('click');
-        renderCard(targetIdx);
-      });
-    });
+  document.querySelector('#btnConfirmDiamonds')?.addEventListener('click', async () => {
+    const btn = document.querySelector('#btnConfirmDiamonds');
+    const feedback = document.querySelector('#diamondFeedback');
+    btn.disabled = true;
+    btn.textContent = 'VERIFYING COMPLETION…';
+    audio.play('click');
 
-    // Form submit listener
-    const form = document.querySelector('#diamondCardForm');
-    form?.addEventListener('submit', async e => {
-      e.preventDefault();
-      const ans = document.querySelector('#diamondInput').value.trim();
-      const feedback = document.querySelector('#diamondFeedback');
-      feedback.innerHTML = '<span style="color:var(--text-dim);">Validating cipher on server...</span>';
-
-      const result = await verifyAnswerWithServer('diamonds', { card: item.card, answer: ans });
-
-      if (result.ok) {
-        audio.play('success');
-        if (result.genuine) {
-          if (result.final) {
-            clearLevel('diamonds');
-            await awardBadge('diamonds');
-            feedback.innerHTML = `
-              <div style="color:var(--club); background:rgba(80,250,158,0.1); padding:1rem; border-radius:4px; border:1px solid var(--club);">
-                <strong>✓ LEVEL 03 CLEARED! ♦ DIAMOND SIGNAL EARNED!</strong><br>
-                ${result.reveal}<br>
-                <strong>Level 04: ♥ Hearts Trial is now unlocked!</strong>
-                <div style="margin-top:0.75rem;">
-                  <a href="#/hearts" class="cyber-btn" style="background:var(--heart); color:#fff;" data-nav>ADVANCE TO LEVEL 04 (♥ HEARTS) ↗</a>
-                </div>
-              </div>
-            `;
-          } else {
-            const nextIdx = diamondCards.findIndex(c => c.card === result.next);
-            feedback.innerHTML = `
-              <div style="color:var(--club); margin-top:0.5rem;">
-                ✓ Correct! ${result.clue}: ${result.reveal}
-                <div style="margin-top:0.5rem;">
-                  <button type="button" class="cyber-btn" id="btnNextDiamond" style="padding:0.4rem 0.8rem; font-size:0.75rem;">NEXT CARD (${result.next}) ↗</button>
-                </div>
-              </div>
-            `;
-            document.querySelector('#btnNextDiamond')?.addEventListener('click', () => {
-              audio.play('click');
-              renderCard(nextIdx);
-            });
-          }
-        } else {
-          feedback.innerHTML = `<span style="color:var(--joker);">${result.reveal} (Decoy cleared). Return to the genuine trail.</span>`;
-        }
-      } else {
-        audio.play('error');
-        feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Incorrect calculation. Check operator precedence: ▲ (+) ● (×) ■ (-) ★ (÷)'}</span>`;
-      }
-    });
-  }
-
-  renderCard(activeIndex);
+    const result = await verifyAnswerWithServer('diamonds');
+    if (result.ok) {
+      audio.play('success');
+      clearLevel('diamonds');
+      await awardBadge('diamonds');
+      feedback.innerHTML = `
+        <div style="color:var(--club); background:rgba(80,250,158,0.1); padding:1rem; border-radius:6px; border:1px solid var(--club);">
+          <strong>✓ LEVEL 03 CLEARED! ♦ DIAMOND SIGNAL EARNED!</strong><br>
+          Physical round completion confirmed on server.<br>
+          <strong>Level 04: ♥ Hearts Trial is now unlocked!</strong>
+          <div style="margin-top:0.85rem;">
+            <a href="#/hearts" class="cyber-btn" style="background:var(--heart); color:#fff;" data-nav>ADVANCE TO LEVEL 04 (♥ HEARTS) ↗</a>
+          </div>
+        </div>
+      `;
+    } else {
+      audio.play('error');
+      feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Failed to verify round completion.'}</span>`;
+      btn.disabled = false;
+      btn.textContent = 'CONFIRM PHYSICAL TRIAL COMPLETED ↗';
+    }
+  });
 }
 
 // --------------------------------------------------------------------------
-// VIEW: 04. TRIAL ♥ HEARTS (THE HUMAN CHAIN - 4 ENVELOPES & 5-SEAT LOGIC GRID)
+// VIEW: 04. TRIAL ♥ HEARTS (PHYSICAL ROUND)
 // --------------------------------------------------------------------------
-const heartEnvelopes = [
-  {
-    title: 'ENVELOPE A (Vikram’s Pack)',
-    clues: [
-      'Topaz and the Key occupy opposite ends.',
-      'Ruby seat + Locket seat = 6.',
-      'Meera sits immediately left of Aarav.'
-    ]
-  },
-  {
-    title: 'ENVELOPE B (Meera’s Pack)',
-    clues: [
-      'Sapphire sits immediately left of Topaz.',
-      'Emerald sits immediately right of Ruby.',
-      'Diya is not at either end.'
-    ]
-  },
-  {
-    title: 'ENVELOPE C (Aarav’s Pack)',
-    clues: [
-      'Coin sits immediately right of Pearl.',
-      'Rohan holds neither Ring, Watch, nor Key.',
-      'The Pearl owner sits immediately right of Emerald owner.'
-    ]
-  },
-  {
-    title: 'ENVELOPE D (Diya’s Pack)',
-    clues: [
-      'Ruby owner and Key holder are the same person.',
-      'Meera holds the Watch and owns Emerald.',
-      'The confirmed arrangement decodes via A1Z26.'
-    ]
-  }
-];
-
-// The confirmed arrangement and trust assessment are verified securely on server
 function renderHeartsView() {
-  let openEnv = 0;
-
-  function render() {
-    pageRoot.innerHTML = `
-      <div class="view-page">
-        <header class="page-header">
-          <p class="page-eyebrow" style="color:var(--heart);">LEVEL 04 // PSYCHOLOGY & TRUST</p>
-          <h1 class="page-title">THE HUMAN<br><span style="color:var(--heart);">CHAIN.</span></h1>
-          <p class="page-desc">
-            Four sealed envelopes. 20 clues. No single teammate has the full truth. Distribute the envelopes, deduce the five-seat logic matrix, pass the Trust Check, and unlock Level 05 (♠ Spades).
-          </p>
-        </header>
-
-        ${renderProgressHeader('hearts')}
-
-        <!-- 4 Sealed Envelopes Selector -->
-        <p style="font-family:var(--mono); font-size:0.75rem; letter-spacing:0.15em; color:var(--text-dim); text-transform:uppercase; margin-bottom:0.75rem;">
-          SELECT TEAMMATE SEALED ENVELOPE
+  pageRoot.innerHTML = `
+    <div class="view-page">
+      <header class="page-header">
+        <p class="page-eyebrow" style="color:var(--heart);">LEVEL 04 · PHYSICAL ROUND</p>
+        <h1 class="page-title">THE HUMAN<br><span style="color:var(--heart);">CHAIN.</span></h1>
+        <p class="page-desc">
+          This round is conducted entirely physically on-site at the venue. All teammate envelopes, clues, and instructions are distributed directly by station coordinators. No clues or instructions are displayed on the website.
         </p>
-        <div class="envelope-grid">
-          ${heartEnvelopes.map((env, i) => `
-            <div class="envelope-card ${i === openEnv ? 'active' : ''}" data-env-idx="${i}">
-              <span style="font-family:var(--mono); font-size:0.7rem; color:var(--heart);">ENVELOPE 0${i + 1}</span>
-              <h3 style="font-family:var(--display); font-size:1.05rem; margin:0.4rem 0;">${env.title}</h3>
-              <ul style="font-size:0.82rem; color:var(--text-muted); padding-left:1.1rem; line-height:1.5;">
-                ${env.clues.map(c => `<li>${c}</li>`).join('')}
-              </ul>
-            </div>
-          `).join('')}
-        </div>
+      </header>
 
-        <!-- 5-Seat Logic Grid Form -->
-        <div class="challenge-card" style="border-color:var(--heart);">
+      ${renderProgressHeader('hearts')}
+
+      <div style="max-width:720px; margin:0 auto;">
+        <div class="challenge-card" style="border-color:var(--heart); text-align:center;">
           <div class="challenge-top">
-            <span>FIVE-SEAT LOGIC MATRIX</span>
-            <span>MATCH PERSON · OBJECT · GEM FOR SEATS 1 TO 5</span>
+            <span>♥ HEARTS TRIAL</span>
+            <span style="color:var(--heart); font-weight:700;">100% PHYSICAL VENUE ROUND</span>
           </div>
 
-          <form id="heartsGridForm">
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:1rem; margin-bottom:1.5rem;">
-              ${[1, 2, 3, 4, 5].map(seat => `
-                <div style="background:rgba(0,0,0,0.4); border:1px solid var(--border-subtle); padding:1rem; border-radius:6px;">
-                  <div style="font-family:var(--mono); font-size:0.8rem; font-weight:700; color:var(--heart); margin-bottom:0.75rem;">
-                    SEAT 0${seat}
-                  </div>
-                  <div style="display:flex; flex-direction:column; gap:0.5rem;">
-                    <select class="cyber-input" name="p${seat}" required style="padding:0.5rem;">
-                      <option value="">— Person —</option>
-                      ${['Vikram', 'Meera', 'Aarav', 'Diya', 'Rohan'].map(p => `<option value="${p}">${p}</option>`).join('')}
-                    </select>
-                    <select class="cyber-input" name="o${seat}" required style="padding:0.5rem;">
-                      <option value="">— Object —</option>
-                      ${['Key', 'Watch', 'Ring', 'Coin', 'Locket'].map(o => `<option value="${o}">${o}</option>`).join('')}
-                    </select>
-                    <select class="cyber-input" name="g${seat}" required style="padding:0.5rem;">
-                      <option value="">— Gem —</option>
-                      ${['Ruby', 'Emerald', 'Pearl', 'Sapphire', 'Topaz'].map(g => `<option value="${g}">${g}</option>`).join('')}
-                    </select>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
-              <button type="submit" class="cyber-btn" style="background:var(--heart); color:#fff;">
-                SUBMIT SEAT DEDUCTION ↗
-              </button>
-              <div id="heartsGridFeedback" style="font-family:var(--mono); font-size:0.85rem;"></div>
-            </div>
-          </form>
-        </div>
-
-        <!-- Trust Check Modal / Section -->
-        <div id="trustCheckSection" style="display:none; margin-top:2rem;">
-          <div class="challenge-card" style="border-color:var(--heart);">
-            <div class="challenge-top">
-              <span>HEARTS TRUST CHECK</span>
-              <span>VERIFY THE DEDUCED TRUTHS</span>
-            </div>
-
-            <form id="trustForm" style="display:flex; flex-direction:column; gap:1rem;">
-              ${[
-        'Ruby owner and Key holder are the same person.',
-        'Pearl owner sits immediately right of Emerald owner.',
-        'Rohan owns Sapphire.',
-        'Coin holder sits between Pearl owner and Topaz owner.',
-        'Meera and the Sapphire owner sit next to each other.'
-      ].map((q, idx) => `
-                <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:0.85rem 1.25rem; border-radius:6px; border:1px solid var(--border-subtle); flex-wrap:wrap; gap:0.5rem;">
-                  <span style="font-size:0.9rem;">0${idx + 1}. ${q}</span>
-                  <select class="cyber-input" name="q${idx}" required style="width:120px; padding:0.4rem;">
-                    <option value="">Choose</option>
-                    <option value="TRUE">TRUE</option>
-                    <option value="FALSE">FALSE</option>
-                  </select>
-                </div>
-              `).join('')}
-
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1rem;">
-                <button type="submit" class="cyber-btn" style="background:var(--heart); color:#fff;">
-                  VERIFY TRUST CHECK ↗
-                </button>
-                <div id="trustFeedback" style="font-family:var(--mono); font-size:0.85rem;"></div>
-              </div>
-            </form>
+          <div class="physical-round-emblem" style="background:rgba(239, 68, 68, 0.15); border:2px solid var(--heart); color:var(--heart);">
+            ♥
           </div>
+
+          <h2 style="font-family:var(--display); font-size:1.6rem; color:#fff; margin-bottom:0.75rem;">
+            PHYSICAL TRIAL IN PROGRESS
+          </h2>
+
+          <p style="font-size:0.95rem; color:var(--text-muted); line-height:1.6; max-width:540px; margin:0 auto 1.5rem auto;">
+            Report to the Hearts Station lead to receive your sealed physical teammate envelopes. Work together offline with your crew to verify the human trust chain.
+          </p>
+
+          <div style="background:rgba(0,0,0,0.4); border:1px solid var(--border-subtle); border-radius:6px; padding:1rem; margin-bottom:1.75rem; font-family:var(--mono); font-size:0.8rem; color:var(--text-dim);">
+            NO WEBSITE CLUES OR PUZZLES · CONDUCTED OFFLINE AT VENUE
+          </div>
+
+          <button type="button" class="cyber-btn" id="btnConfirmHearts" style="background:var(--heart); color:#fff; padding:0.85rem 1.8rem; font-size:0.95rem;">
+            CONFIRM PHYSICAL TRIAL COMPLETED ↗
+          </button>
+
+          <div id="heartFeedback" style="font-family:var(--mono); font-size:0.9rem; margin-top:1.5rem;"></div>
         </div>
       </div>
-    `;
+    </div>
+  `;
 
-    // Envelope selectors
-    document.querySelectorAll('.envelope-card').forEach(el => {
-      el.addEventListener('click', () => {
-        audio.play('click');
-        openEnv = Number(el.dataset.envIdx);
-        render();
-      });
-    });
+  document.querySelector('#btnConfirmHearts')?.addEventListener('click', async () => {
+    const btn = document.querySelector('#btnConfirmHearts');
+    const feedback = document.querySelector('#heartFeedback');
+    btn.disabled = true;
+    btn.textContent = 'VERIFYING COMPLETION…';
+    audio.play('click');
 
-    // Grid Form validation
-    const gridForm = document.querySelector('#heartsGridForm');
-    gridForm?.addEventListener('submit', async e => {
-      e.preventDefault();
-      const fd = new FormData(gridForm);
-      const userArrangement = [1, 2, 3, 4, 5].map(s => ({
-        p: fd.get(`p${s}`),
-        o: fd.get(`o${s}`),
-        g: fd.get(`g${s}`)
-      }));
-
-      const feedback = document.querySelector('#heartsGridFeedback');
-      feedback.innerHTML = '<span style="color:var(--text-dim);">Verifying seat matrix on server...</span>';
-
-      const result = await verifyAnswerWithServer('hearts-grid', { arrangement: userArrangement });
-
-      if (result.ok) {
-        audio.play('success');
-        feedback.innerHTML = `<span style="color:var(--club);">✓ Arrangement verified! Now complete the 5-Question Trust Check below.</span>`;
-        document.querySelector('#trustCheckSection').style.display = 'block';
-        document.querySelector('#trustCheckSection').scrollIntoView({ behavior: 'smooth' });
-      } else {
-        audio.play('error');
-        feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Arrangement conflict.'}</span>`;
-      }
-    });
-
-    // Trust Form validation
-    const trustForm = document.querySelector('#trustForm');
-    trustForm?.addEventListener('submit', async e => {
-      e.preventDefault();
-      const fd = new FormData(trustForm);
-      const userAnswers = [0, 1, 2, 3, 4].map(i => fd.get(`q${i}`));
-
-      const feedback = document.querySelector('#trustFeedback');
-      feedback.innerHTML = '<span style="color:var(--text-dim);">Evaluating trust vector on server...</span>';
-
-      const result = await verifyAnswerWithServer('hearts-trust', { answers: userAnswers });
-
-      if (result.ok) {
-        audio.play('success');
-        clearLevel('hearts');
-        await awardBadge('hearts');
-        feedback.innerHTML = `
-          <div style="color:var(--club); background:rgba(80,250,158,0.1); padding:1rem; border-radius:4px; border:1px solid var(--club); margin-top:1rem;">
-            <strong>✓ LEVEL 04 CLEARED! ♥ HEART SIGNAL EARNED!</strong><br>
-            A1Z26 number cards: 8 (H) · 5 (E) · 1 (A) · 18 (R) · 20 (T).<br>
-            <strong>Level 05: ♠ Spades Trial is now unlocked!</strong>
-            <div style="margin-top:0.75rem;">
-              <a href="#/spades" class="cyber-btn" style="background:var(--spade); color:#000;" data-nav>ADVANCE TO LEVEL 05 (♠ SPADES) ↗</a>
-            </div>
+    const result = await verifyAnswerWithServer('hearts');
+    if (result.ok) {
+      audio.play('success');
+      clearLevel('hearts');
+      await awardBadge('hearts');
+      feedback.innerHTML = `
+        <div style="color:var(--club); background:rgba(80,250,158,0.1); padding:1rem; border-radius:6px; border:1px solid var(--club);">
+          <strong>✓ LEVEL 04 CLEARED! ♥ HEART SIGNAL EARNED!</strong><br>
+          Physical round completion confirmed on server.<br>
+          <strong>Level 05: ♠ Spades Trial is now unlocked!</strong>
+          <div style="margin-top:0.85rem;">
+            <a href="#/spades" class="cyber-btn" style="background:var(--spade); color:#000;" data-nav>ADVANCE TO LEVEL 05 (♠ SPADES) ↗</a>
           </div>
-        `;
-      } else {
-        audio.play('error');
-        feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Trust check failed.'}</span>`;
-      }
-    });
-  }
-
-  render();
+        </div>
+      `;
+    } else {
+      audio.play('error');
+      feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Failed to verify round completion.'}</span>`;
+      btn.disabled = false;
+      btn.textContent = 'CONFIRM PHYSICAL TRIAL COMPLETED ↗';
+    }
+  });
 }
 
 // --------------------------------------------------------------------------
@@ -1695,7 +1419,7 @@ function renderSpadesView() {
     pageRoot.innerHTML = `
       <div class="view-page">
         <header class="page-header">
-          <p class="page-eyebrow" style="color:var(--spade);">LEVEL 05 // PHYSICAL & PRACTICAL</p>
+          <p class="page-eyebrow" style="color:var(--spade);">LEVEL 05 · PHYSICAL & PRACTICAL</p>
           <h1 class="page-title">THE FIELD<br><span style="color:var(--spade);">SIGNAL.</span></h1>
           <p class="page-desc">
             Move through real-world campus waypoints, crack the technical field riddles, recover all 5 letter keys, and assemble the master word to unlock Level 06 (♣ Clubs).
@@ -1823,10 +1547,10 @@ function renderClubsView() {
   pageRoot.innerHTML = `
     <div class="view-page">
       <header class="page-header">
-        <p class="page-eyebrow" style="color:var(--club);">LEVEL 06 // COMMUNICATION & STRATEGY</p>
+        <p class="page-eyebrow" style="color:var(--club);">LEVEL 06 · 100% WEBSITE-DRIVEN TRIAL</p>
         <h1 class="page-title">THE WAR<br><span style="color:var(--club);">ROOM.</span></h1>
         <p class="page-desc">
-          Your crew operates the command relay. Synchronize transmission order, calibrate frequency balance, and execute the verified response protocol to unlock Level 07 (🃏 The Final Paradox).
+          This round is completely website-driven. Your crew operates the digital command relay directly on this portal. Synchronize transmission order, calibrate frequency balance, and execute the verified response protocol to unlock Level 07 (🃏 The Final Paradox).
         </p>
       </header>
 
@@ -1984,7 +1708,7 @@ function renderClubsView() {
 }
 
 // --------------------------------------------------------------------------
-// VIEW: 07. TRIAL 🃏 FINAL PARADOX (THE JOKER - 20x20 GRID, 15-STACK, STORY TRAP)
+// VIEW: 07. TRIAL 🃏 FINAL PARADOX (THE JOKER - TWO-PART FINALE)
 // --------------------------------------------------------------------------
 const floor20Route = [
   // Defined safe path from (0,0) down to (19,19)
@@ -1992,14 +1716,8 @@ const floor20Route = [
   186, 206, 226, 246, 247, 267, 287, 307, 327, 347, 367, 368, 388, 398, 399
 ];
 
-const fifteenColors = [
-  'red', 'blue', 'yellow', 'green', 'violet',
-  'orange', 'pink', 'cyan', 'lime', 'amber',
-  'purple', 'teal', 'white', 'crimson', 'gold'
-];
-
 function renderJokerView() {
-  function renderPhase1() {
+  function renderPart1Web() {
     let visitedCells = [];
     let previewing = true;
     let previewTime = 10;
@@ -2007,18 +1725,33 @@ function renderJokerView() {
     pageRoot.innerHTML = `
       <div class="view-page">
         <header class="page-header">
-          <p class="page-eyebrow" style="color:var(--joker);">LEVEL 07 // 20 × 20 FLOOR GRID</p>
+          <p class="page-eyebrow" style="color:var(--joker);">LEVEL 07 · TWO-PART FINALE (PART 1 OF 2)</p>
           <h1 class="page-title">FINAL<br><span style="color:var(--joker);">PARADOX.</span></h1>
           <p class="page-desc">
-            A 20 × 20 grid of 400 tiles. Memorize the golden route before the lights shut down. Navigate from START to EXIT without stepping on a hidden trap.
+            This round has two parts: The first half is website-driven right here on the portal. Memorize the golden route and conquer the 20 × 20 floor grid to unlock the second half (Physical Arena Finale).
           </p>
         </header>
 
         ${renderProgressHeader('joker')}
 
+        <!-- Structure Tracker Bar -->
+        <div class="joker-phase-tracker">
+          <div class="phase-step active">
+            <span class="step-num">PART 01</span>
+            <span class="step-title">FIRST HALF: WEBSITE-DRIVEN</span>
+            <span class="step-badge">ACTIVE · 20×20 FLOOR GRID</span>
+          </div>
+          <div class="phase-arrow">➔</div>
+          <div class="phase-step locked">
+            <span class="step-num">PART 02</span>
+            <span class="step-title">SECOND HALF: PHYSICAL</span>
+            <span class="step-badge">🔒 LOCKED UNTIL PART 1 COMPLETE</span>
+          </div>
+        </div>
+
         <div class="challenge-card" style="border-color:var(--joker);">
           <div class="challenge-top">
-            <span>20 × 20 ARENA FLOOR MATRIX (400 CELLS)</span>
+            <span>PART 1 · 20 × 20 DIGITAL ARENA FLOOR MATRIX</span>
             <span id="gridTimerText" style="color:var(--joker); font-weight:700;">ROUTE MEMORY WINDOW: ${previewTime}S</span>
           </div>
 
@@ -2077,15 +1810,16 @@ function renderJokerView() {
           audio.play('success');
           document.querySelector('#gridFeedback').innerHTML = `
             <div style="color:var(--club); background:rgba(80,250,158,0.1); padding:1rem; border-radius:4px; border:1px solid var(--club);">
-              <strong>✓ 20×20 FLOOR GRID CONQUERED!</strong><br>
-              Checkpoint 01 cleared. Proceeding to the 15-Block Memory Stack.
+              <strong>✓ FIRST HALF (WEBSITE-DRIVEN) CONQUERED!</strong><br>
+              20 × 20 Floor Grid cleared. The website-driven half is complete!<br>
+              <strong>Proceed to Part 2: The Physical Arena Finale.</strong>
               <div style="margin-top:0.75rem;">
-                <button type="button" class="cyber-btn" id="btnNextPhase" style="background:var(--joker); color:#000;">COMMENCE 15-BLOCK STACK ↗</button>
+                <button type="button" class="cyber-btn" id="btnNextPhase" style="background:var(--joker); color:#000;">ADVANCE TO SECOND HALF (PHYSICAL FINALE) ➔</button>
               </div>
             </div>
           `;
           document.querySelector('#btnNextPhase')?.addEventListener('click', () => {
-            renderPhase2();
+            renderPart2Physical();
           });
         }
       } else {
@@ -2099,251 +1833,58 @@ function renderJokerView() {
     });
   }
 
-  function renderPhase2() {
-    let stackPicked = [];
-    let previewing = true;
-    let previewSeconds = 8;
-
+  function renderPart2Physical() {
     pageRoot.innerHTML = `
       <div class="view-page">
         <header class="page-header">
-          <p class="page-eyebrow" style="color:var(--joker);">CHECKPOINT 01 // 15-BLOCK MEMORY STACK</p>
-          <h1 class="page-title">THE FIFTEEN<br><span style="color:var(--joker);">BLOCKS.</span></h1>
+          <p class="page-eyebrow" style="color:var(--joker);">LEVEL 07 · TWO-PART FINALE (PART 2 OF 2)</p>
+          <h1 class="page-title">THE PHYSICAL<br><span style="color:var(--joker);">FINALE.</span></h1>
           <p class="page-desc">
-            Memorize the full 15-block color sequence. Once the stack conceals, click the palette buttons to rebuild all 15 blocks from bottom to top.
+            The second half of the Joker round is conducted physically on-site across the venue. Report to the Joker Station lead in the main arena to execute your physical finale tasks.
           </p>
         </header>
 
         ${renderProgressHeader('joker')}
 
-        <div class="challenge-card" style="border-color:var(--joker); max-width:680px; margin:0 auto;">
-          <div class="challenge-top">
-            <span>15-COLOR SEQUENCE MEMORY</span>
-            <span id="stackTimerText" style="color:var(--joker); font-weight:700;">HIDING IN: ${previewSeconds}S</span>
+        <!-- Structure Tracker Bar -->
+        <div class="joker-phase-tracker">
+          <div class="phase-step completed">
+            <span class="step-num">PART 01</span>
+            <span class="step-title">FIRST HALF: WEBSITE-DRIVEN</span>
+            <span class="step-badge">✓ CLEARED · 20×20 GRID COMPLETE</span>
           </div>
-
-          <div class="stack-builder-15" id="stackDisplay">
-            ${fifteenColors.map((color, i) => `
-              <div class="stack-tile-15 bg-${color}">${String(i + 1).padStart(2, '0')} · ${color.toUpperCase()}</div>
-            `).join('')}
+          <div class="phase-arrow">➔</div>
+          <div class="phase-step active">
+            <span class="step-num">PART 02</span>
+            <span class="step-title">SECOND HALF: PHYSICAL</span>
+            <span class="step-badge">ACTIVE · ARENA FINALE</span>
           </div>
-
-          <div class="color-pallet-15" id="colorPallet" style="display:none;">
-            ${fifteenColors.map(color => `
-              <button type="button" class="color-btn bg-${color}" data-color="${color}">${color}</button>
-            `).join('')}
-          </div>
-
-          <div id="stackFeedback" style="font-family:var(--mono); font-size:0.85rem; text-align:center; margin-top:1.5rem;"></div>
         </div>
-      </div>
-    `;
 
-    // 8s countdown
-    const timer = activeTimers.setInterval(() => {
-      previewSeconds--;
-      const el = document.querySelector('#stackTimerText');
-      if (el) el.textContent = `HIDING IN: ${previewSeconds}S`;
-
-      if (previewSeconds <= 0) {
-        activeTimers.clearInterval(timer);
-        previewing = false;
-        if (el) el.textContent = 'REBUILD 0 / 15';
-        document.querySelector('#colorPallet').style.display = 'grid';
-        renderEmptyStack();
-      }
-    }, 1000);
-
-    function renderEmptyStack() {
-      const display = document.querySelector('#stackDisplay');
-      if (!display) return;
-      display.innerHTML = fifteenColors.map((_, i) => {
-        const picked = stackPicked[i];
-        if (picked) {
-          return `<div class="stack-tile-15 bg-${picked}">${String(i + 1).padStart(2, '0')} · ${picked.toUpperCase()}</div>`;
-        }
-        return `<div class="stack-tile-15" style="background:#181a24; border:1px solid #2d3042; color:#555;">BLOCK 0${i + 1}</div>`;
-      }).join('');
-    }
-
-    document.querySelector('#colorPallet')?.addEventListener('click', e => {
-      const btn = e.target.closest('.color-btn');
-      if (!btn || previewing) return;
-      const color = btn.dataset.color;
-      const expected = fifteenColors[stackPicked.length];
-
-      if (color === expected) {
-        audio.play('click');
-        stackPicked.push(color);
-        const timerText = document.querySelector('#stackTimerText');
-        if (timerText) timerText.textContent = `REBUILD ${stackPicked.length} / 15`;
-        renderEmptyStack();
-
-        if (stackPicked.length === fifteenColors.length) {
-          audio.play('success');
-          document.querySelector('#stackFeedback').innerHTML = `
-            <div style="color:var(--club); background:rgba(80,250,158,0.1); padding:1rem; border-radius:4px; border:1px solid var(--club);">
-              <strong>✓ 15-BLOCK COLOR STACK CONQUERED!</strong><br>
-              Checkpoint 02 cleared. Advancing to the Memory Trap Story Recall.
-              <div style="margin-top:0.75rem;">
-                <button type="button" class="cyber-btn" id="btnNextStory" style="background:var(--joker); color:#000;">ADVANCE TO MEMORY TRAP ↗</button>
-              </div>
-            </div>
-          `;
-          document.querySelector('#btnNextStory')?.addEventListener('click', () => {
-            renderPhase3();
-          });
-        }
-      } else {
-        audio.play('error');
-        stackPicked = [];
-        renderEmptyStack();
-        document.querySelector('#stackFeedback').innerHTML = `<span style="color:var(--heart);">Wrong color block! The stack has reset.</span>`;
-      }
-    });
-  }
-
-  function renderPhase3() {
-    let readingSeconds = 12;
-
-    pageRoot.innerHTML = `
-      <div class="view-page">
-        <header class="page-header">
-          <p class="page-eyebrow" style="color:var(--joker);">CHECKPOINT 02 // MEMORY TRAP STORY</p>
-          <h1 class="page-title">THE WITNESS<br><span style="color:var(--joker);">TEST.</span></h1>
-          <p class="page-desc">
-            A precise eyewitness account from the laboratory. Memorize every number, object, and color before the questions lock in.
-          </p>
-        </header>
-
-        ${renderProgressHeader('joker')}
-
-        <div class="challenge-card" style="border-color:var(--joker); max-width:760px; margin:0 auto;">
+        <div class="challenge-card" style="border-color:var(--joker); max-width:760px; margin:0 auto; text-align:center;">
           <div class="challenge-top">
-            <span>EYEWITNESS TRANSCRIPT</span>
-            <span id="storyTimer" style="color:var(--joker); font-weight:700;">QUESTIONS COMMENCE IN: ${readingSeconds}S</span>
+            <span>PART 2 · PHYSICAL FINALE ROUND</span>
+            <span style="color:var(--joker); font-weight:700;">ON-SITE VENUE CLEARANCE</span>
           </div>
 
-          <div id="storyContent" style="background:rgba(0,0,0,0.5); padding:2rem; border-radius:8px; border:1px solid var(--border-subtle); line-height:1.75; font-size:1.15rem; font-family:Georgia, serif; color:var(--text-main);">
-            "At 9:15 AM, Aarav, Meera, Rohan and Diya entered a laboratory. Aarav wore blue and placed key <b>6</b> on Table <b>2</b>. Meera wore red and placed green card <b>8</b> on Table <b>4</b>. Rohan wore <b>yellow</b>, carried a black notebook of <b>15</b> pages, and placed it immediately left of Meera. Diya wore green and carried key <b>3</b>. Before leaving, Aarav moved his key to Rohan’s table."
+          <div class="physical-round-emblem" style="background:rgba(245, 158, 11, 0.15); border:2px solid var(--joker); color:var(--joker);">
+            🃏
           </div>
 
-          <!-- Questions form (hidden until timer finishes) -->
-          <form id="storyQuestionsForm" style="display:none; margin-top:2rem; flex-direction:column; gap:1rem;">
-            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:0.85rem; border-radius:6px; border:1px solid var(--border-subtle); flex-wrap:wrap; gap:0.5rem;">
-              <span>01. What color was Rohan wearing?</span>
-              <input class="cyber-input" name="q1" placeholder="Color..." required style="width:180px;" />
-            </div>
-            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:0.85rem; border-radius:6px; border:1px solid var(--border-subtle); flex-wrap:wrap; gap:0.5rem;">
-              <span>02. How many pages were in Rohan's notebook?</span>
-              <input class="cyber-input" name="q2" placeholder="Page count..." required inputmode="numeric" style="width:180px;" />
-            </div>
-            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:0.85rem; border-radius:6px; border:1px solid var(--border-subtle); flex-wrap:wrap; gap:0.5rem;">
-              <span>03. Which table number held Rohan's notebook?</span>
-              <input class="cyber-input" name="q3" placeholder="Table number..." required style="width:180px;" />
-            </div>
-            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:0.85rem; border-radius:6px; border:1px solid var(--border-subtle); flex-wrap:wrap; gap:0.5rem;">
-              <span>04. What number was on Aarav's key?</span>
-              <input class="cyber-input" name="q4" placeholder="Key number..." required inputmode="numeric" style="width:180px;" />
-            </div>
+          <h2 style="font-family:var(--display); font-size:1.6rem; color:#fff; margin-bottom:0.75rem;">
+            ON-SITE PHYSICAL FINALE DIRECTIVE
+          </h2>
 
-            <button type="submit" class="cyber-btn" style="background:var(--joker); color:#000; margin-top:0.5rem;">
-              VALIDATE RECALL ↗
-            </button>
-            <div id="storyFeedback" style="font-family:var(--mono); font-size:0.85rem; text-align:center;"></div>
-          </form>
-        </div>
-      </div>
-    `;
-
-    const timer = activeTimers.setInterval(() => {
-      readingSeconds--;
-      const el = document.querySelector('#storyTimer');
-      if (el) el.textContent = `QUESTIONS COMMENCE IN: ${readingSeconds}S`;
-
-      if (readingSeconds <= 0) {
-        activeTimers.clearInterval(timer);
-        if (el) el.textContent = 'MEMORY RECALL ACTIVE';
-        document.querySelector('#storyContent').innerHTML = '<p style="color:var(--text-dim); font-style:italic;">[Eyewitness transcript concealed. Answer from memory.]</p>';
-        document.querySelector('#storyQuestionsForm').style.display = 'flex';
-      }
-    }, 1000);
-
-    const form = document.querySelector('#storyQuestionsForm');
-    form?.addEventListener('submit', async e => {
-      e.preventDefault();
-      const fd = new FormData(form);
-      const q1 = fd.get('q1').trim();
-      const q2 = fd.get('q2').trim();
-      const q3 = fd.get('q3').trim();
-      const q4 = fd.get('q4').trim();
-
-      const feedback = document.querySelector('#storyFeedback');
-      feedback.innerHTML = '<span style="color:var(--text-dim);">Checking memory telemetry on server...</span>';
-
-      const result = await verifyAnswerWithServer('joker-story', { q1, q2, q3, q4 });
-      if (result.ok) {
-        audio.play('success');
-        feedback.innerHTML = `
-          <div style="color:var(--club); background:rgba(80,250,158,0.1); padding:1rem; border-radius:4px; border:1px solid var(--club); margin-top:1rem;">
-            <strong>✓ MEMORY TRAP SURVIVED!</strong><br>
-            Key numbers synthesized from your recollection.<br>
-            Final stage unlocked: The 3 Campus Exit Locations.
-            <div style="margin-top:0.75rem;">
-              <button type="button" class="cyber-btn" id="btnCampusEscape" style="background:var(--joker); color:#000;">REACH CAMPUS ESCAPE ↗</button>
-            </div>
-          </div>
-        `;
-        document.querySelector('#btnCampusEscape')?.addEventListener('click', () => {
-          renderPhase4();
-        });
-      } else {
-        audio.play('error');
-        feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Memory discrepancy detected. Re-verify the details.'}</span>`;
-      }
-    });
-  }
-
-  function renderPhase4() {
-    pageRoot.innerHTML = `
-      <div class="view-page">
-        <header class="page-header">
-          <p class="page-eyebrow" style="color:var(--joker);">LEVEL 07 FINAL STRIKE // CAMPUS EXIT LOCATIONS</p>
-          <h1 class="page-title">PARADOX<br><span style="color:var(--joker);">ESCAPED.</span></h1>
-          <p class="page-desc">
-            To claim the physical Joker Card, solve the three campus escape riddles and enter the master verification code.
+          <p style="font-size:0.95rem; color:var(--text-muted); line-height:1.6; max-width:580px; margin:0 auto 1.5rem auto;">
+            Report to the physical arena to meet the Grand Station Lead. Complete the physical finale tasks at the campus checkpoints. Once completed, enter your physical clearance code provided by the coordinator below to conclude the Borderland Trail.
           </p>
-        </header>
 
-        ${renderProgressHeader('joker')}
-
-        <div class="challenge-card" style="border-color:var(--joker); max-width:760px; margin:0 auto;">
-          <div class="challenge-top">
-            <span>FINAL THREE LANDMARKS</span>
-            <span>MASTER CODE CIPHER</span>
-          </div>
-
-          <div style="display:flex; flex-direction:column; gap:1rem; margin-bottom:2rem;">
-            <div style="background:rgba(0,0,0,0.4); padding:1rem 1.25rem; border-radius:6px; border:1px solid var(--border-subtle);">
-              <span style="font-family:var(--mono); color:var(--joker); font-size:0.8rem;">LANDMARK A</span>
-              <p style="margin-top:0.25rem; font-size:0.95rem;">"Where bouncing rubber echoes off asphalt cages under open sky." ➔ <strong>Basketball Court</strong></p>
-            </div>
-            <div style="background:rgba(0,0,0,0.4); padding:1rem 1.25rem; border-radius:6px; border:1px solid var(--border-subtle);">
-              <span style="font-family:var(--mono); color:var(--joker); font-size:0.8rem;">LANDMARK B</span>
-              <p style="margin-top:0.25rem; font-size:0.95rem;">"Where water dances in stone rings under the sun." ➔ <strong>Campus Fountain</strong></p>
-            </div>
-            <div style="background:rgba(0,0,0,0.4); padding:1rem 1.25rem; border-radius:6px; border:1px solid var(--border-subtle);">
-              <span style="font-family:var(--mono); color:var(--joker); font-size:0.8rem;">LANDMARK C</span>
-              <p style="margin-top:0.25rem; font-size:0.95rem;">"Where students refuel and cups clatter at noon." ➔ <strong>Central Canteen</strong></p>
-            </div>
-          </div>
-
-          <form id="finalJokerForm" style="display:flex; flex-direction:column; gap:1rem; max-width:400px; margin:0 auto;">
+          <form id="finalJokerForm" style="display:flex; flex-direction:column; gap:1rem; max-width:440px; margin:0 auto;">
             <label style="font-family:var(--mono); font-size:0.75rem; color:var(--text-muted); text-align:center;">
-              ENTER MASTER ESCAPE CODE (PAGES · TABLE · KEY)
+              ENTER PHYSICAL CLEARANCE CODE (FROM STATION LEAD)
             </label>
             <div style="display:flex; gap:0.5rem;">
-              <input class="cyber-input" id="finalCodeInput" placeholder="Enter 4-digit code..." required style="font-size:1.2rem; font-weight:700; text-align:center;" autocomplete="off" />
+              <input class="cyber-input" id="finalCodeInput" placeholder="Enter code (e.g. 1536)..." required style="font-size:1.15rem; font-weight:700; text-align:center;" autocomplete="off" />
               <button type="submit" class="cyber-btn" style="background:var(--joker); color:#000;">CLAIM JOKER ↗</button>
             </div>
             <div id="finalJokerFeedback" style="font-family:var(--mono); font-size:0.85rem; text-align:center;"></div>
@@ -2357,7 +1898,7 @@ function renderJokerView() {
       e.preventDefault();
       const code = document.querySelector('#finalCodeInput').value.trim();
       const feedback = document.querySelector('#finalJokerFeedback');
-      feedback.innerHTML = '<span style="color:var(--text-dim);">Authenticating master key on server...</span>';
+      feedback.innerHTML = '<span style="color:var(--text-dim);">Authenticating physical clearance on server...</span>';
 
       const result = await verifyAnswerWithServer('joker-final', { code });
 
@@ -2370,7 +1911,7 @@ function renderJokerView() {
             <div style="font-size:3.5rem;">👑 🃏 🏆</div>
             <h2 style="font-family:var(--display); font-size:2rem; color:var(--joker); margin:0.5rem 0;">PARADOX CONQUERED!</h2>
             <p style="font-size:1rem; color:var(--text-main); margin-bottom:1.5rem;">
-              All Seven Levels, All Four Suits (♦ ♥ ♠ ♣), and The Joker (🃏) have been conquered. Your crew <strong>${currentTeam}</strong> has cleared the NISB Multi-Round Challenge!
+              All Seven Levels, All Four Suits (♦ ♥ ♠ ♣), and The Joker (🃏) have been conquered. Both halves (Website-driven & Physical) are complete! Your crew <strong>${currentTeam}</strong> has cleared the NISB Multi-Round Challenge!
             </p>
             <a href="#/leaderboard" class="cyber-btn" style="background:var(--acid); color:#000;" data-nav>
               VIEW LIVE LEADERBOARD STANDINGS ↗
@@ -2379,12 +1920,12 @@ function renderJokerView() {
         `;
       } else {
         audio.play('error');
-        feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Invalid code. Verify notebook records.'}</span>`;
+        feedback.innerHTML = `<span style="color:var(--heart);">${result.error || 'Invalid clearance code. Check with arena coordinator.'}</span>`;
       }
     });
   }
 
-  renderPhase1();
+  renderPart1Web();
 }
 
 // --------------------------------------------------------------------------
@@ -2396,7 +1937,7 @@ async function renderLeaderboardView() {
   pageRoot.innerHTML = `
     <div class="view-page">
       <header class="page-header">
-        <p class="page-eyebrow">LIVE CREW RANKINGS // MONGODB ATLAS</p>
+        <p class="page-eyebrow">LIVE CREW RANKINGS · MONGODB ATLAS</p>
         <h1 class="page-title">ARENA<br><span style="color:var(--acid);">LEADERBOARD.</span></h1>
         <p class="page-desc">
           Real-time status of all 12 teams across the four suit trials and the final paradox. Verified against MongoDB database <code>crazy-website</code>.
@@ -2425,24 +1966,28 @@ async function renderLeaderboardView() {
         <h3 style="font-family:var(--display); color:var(--diamond); margin-bottom:1rem;">STATION LEADS SOLUTION MASTER REFERENCE</h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1rem;">
           <div>
-            <strong style="color:var(--diamond);">♦ Diamonds Route:</strong>
-            <div>ORBIT (11) ➔ NOVA (34) ➔ VECTOR (18) ➔ PULSE (27) ➔ ECHO (45) ➔ PRISM (16) ➔ DIAMOND</div>
+            <strong style="color:var(--acid);">👥 Team Formation:</strong>
+            <div>Clues distributed physically at venue · Register 5 crew members on website</div>
           </div>
           <div>
-            <strong style="color:var(--heart);">♥ Hearts Arrangement:</strong>
-            <div>Vikram (Key, Ruby) | Meera (Watch, Emerald) | Aarav (Ring, Pearl) | Diya (Coin, Sapphire) | Rohan (Locket, Topaz) ➔ HEART</div>
+            <strong style="color:var(--diamond);">♦ Diamonds (Physical):</strong>
+            <div>Conducted entirely physically on-site at venue · No web clues/instructions</div>
           </div>
           <div>
-            <strong style="color:var(--spade);">♠ Spades Keys:</strong>
+            <strong style="color:var(--heart);">♥ Hearts (Physical):</strong>
+            <div>Conducted entirely physically on-site at venue · No web clues/instructions</div>
+          </div>
+          <div>
+            <strong style="color:var(--spade);">♠ Spades:</strong>
             <div>Reception (P) | Trophy (S) | Statues (A) | CODE unscramble (D, E) ➔ SPADE</div>
           </div>
           <div>
-            <strong style="color:var(--club);">♣ Clubs Command:</strong>
+            <strong style="color:var(--club);">♣ Clubs (100% Website-Driven):</strong>
             <div>SCAN ➔ BRIEF ➔ RELAY ➔ EXECUTE | Frequency: 72 MHz | Signal: Verify then relay ➔ CLUB</div>
           </div>
           <div>
-            <strong style="color:var(--joker);">🃏 Joker Trap Code:</strong>
-            <div>1536 (Pages: 15, Table: 3, Key: 6) | Landmarks: Basketball Court, Fountain, Canteen</div>
+            <strong style="color:var(--joker);">🃏 Joker (Two-Part Finale):</strong>
+            <div>Part 1: Website-Driven (20×20 Floor Grid) | Part 2: Physical Arena (Code: 1536)</div>
           </div>
         </div>
       </div>
