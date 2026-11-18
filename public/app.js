@@ -679,10 +679,6 @@ function renderEndpoint1() {
 
               ${q.code ? `<div class="puzzle-code-box">${q.code}</div>` : ''}
 
-              <div class="puzzle-summary-hint">
-                <strong>Manual Procedure:</strong> ${q.summary}
-              </div>
-
               ${isSolved ? `
                 <div style="font-family:var(--mono); font-size:0.85rem; color:var(--club); padding:0.5rem 0;">
                   ✓ Solved and verified against the backend mainframe.
@@ -837,8 +833,7 @@ async function fetchEndpoint1Session() {
       id: full.id,
       title: full.title,
       prompt: full.prompt,
-      code: full.code,
-      summary: full.summary
+      code: full.code
     };
   });
 

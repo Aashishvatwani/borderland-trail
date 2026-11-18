@@ -254,8 +254,7 @@ export default async function handler(req, res) {
         id: q.id,
         title: q.title,
         prompt: q.prompt,
-        code: q.code,
-        summary: q.summary
+        code: q.code
       };
     });
 
