@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "title": "1. THE REVERSED PROCESSOR",
+    "prompt": "A processor receives the following 8-bit instruction. Apply the correct processor procedure and report the final 8-bit output.",
+    "code": "INPUT = 10110100",
+    "summary": "8-bit word procedure: Full reversal -> Invert every bit -> Split into two 4-bit nibbles and exchange left/right nibbles.",
+    "expected": "00101101",
+    "answers": ["00101101", "0010 1101"]
+  },
+  {
+    "id": 2,
+    "title": "2. THE FORBIDDEN GATE",
+    "prompt": "Evaluate the circuit from left to right. Report the single output bit.",
+    "code": "A = 1\nB = 1\nC = 1\n\nA and B enter G1. The output of G1 and C enter G2.",
+    "summary": "G1 outputs 1 when exactly one input is 1. G2 outputs 1 when its two inputs are different.",
+    "expected": "1",
+    "answers": ["1"]
+  },
+  {
+    "id": 3,
+    "title": "3. THE MEMORY FRAGMENT",
+    "prompt": "Execute the following instruction sequence using the memory table. Report the final 4-bit result.",
+    "code": "M1 = 1100\nM2 = 1011\nM3 = 0101\nM4 = 0110\n\nREAD M2\nXOR M4\nAND M1\nNOT RESULT",
+    "summary": "Execute operations sequentially on 4-bit registers: READ M2, XOR M4, AND M1, NOT RESULT.",
+    "expected": "0011",
+    "answers": ["0011"]
+  },
+  {
+    "id": 4,
+    "title": "4. THE CLOCK SYNCHRONIZATION ERROR",
+    "prompt": "Four machines report different times. Use the synchronization procedure to determine the master time.",
+    "code": "Machine A = 14:20\nMachine B = 14:08\nMachine C = 14:32\nMachine D = 14:26",
+    "summary": "For 4 clock readings: sort them, discard earliest and latest, average the remaining two. Round down seconds.",
+    "expected": "14:23",
+    "answers": ["14:23", "14.23", "14 23"]
+  },
+  {
+    "id": 5,
+    "title": "5. THE CORRUPTED TRANSMISSION",
+    "prompt": "A system receives the following 7-bit data.\n\nCheck whether the data is valid. If an error is detected, apply the correction procedure and report the corrected data.",
+    "code": "RECEIVED = 1101011",
+    "summary": "For 7-bit word, total 1s must be even. If odd, assume the final bit is corrupted and flip only that bit.",
+    "expected": "1101010",
+    "answers": ["1101010"]
+  },
+  {
+    "id": 6,
+    "title": "6. THE ROUTER'S DILEMMA",
+    "prompt": "A packet must travel from Router A to Router F.\n\nFind the lowest-cost route and report its total cost.",
+    "code": "Available routes:\nA → B → D → F\nA → C → E → F\nA → B → E → F\n\nConnection costs:\nA-B = 5\nB-D = 2\nD-F = 3\nA-C = 3\nC-E = 2\nE-F = 1\nB-E = 4",
+    "summary": "Add link costs. Tie-break: fewer links, then alphabetical next-hop.",
+    "expected": "A-C-E-F, cost 6",
+    "answers": ["A-C-E-F, cost 6", "A-C-E-F, 6", "A-C-E-F", "6", "A->C->E->F, 6", "A->C->E->F", "A-C-E-F: 6", "A - C - E - F, 6", "cost 6"]
+  },
+  {
+    "id": 7,
+    "title": "7. THE EXPIRING PACKET",
+    "prompt": "A packet begins with TTL = 10 and travels through the following devices:\n\nRouter A → Switch B → Router C → Router D → Destination\n\nDetermine whether the packet reaches its destination and calculate its remaining TTL.",
+    "code": "INITIAL TTL = 10\nPATH: Router A → Switch B → Router C → Router D → Destination",
+    "summary": "Every router decreases TTL by 2. Every switch decreases TTL by 1. Discard if TTL <= 0.",
+    "expected": "Yes, TTL 3",
+    "answers": ["Yes, 3", "3", "TTL 3", "TTL = 3", "Delivered with TTL 3", "Delivered, 3", "Yes, TTL 3", "Yes, TTL = 3", "Yes, TTL: 3", "Delivered, TTL 3"]
+  },
+  {
+    "id": 8,
+    "title": "8. THE FIREWALL CODE",
+    "prompt": "A security system receives the following six-bit authentication token.\n\nTransform the token using the firewall procedure and report the final six-bit token.",
+    "code": "TOKEN = 100110",
+    "summary": "For 6-bit token: reverse the bits, XOR with 110011, then rotate left by 2 positions.",
+    "expected": "101010",
+    "answers": ["101010"]
+  },
+  {
+    "id": 9,
+    "title": "9. THE LOST PASSWORD",
+    "prompt": "A message has been encrypted using a Caesar cipher.\n\nDecrypt the message and report the original uppercase word.",
+    "code": "MODE = C3\nENCRYPTED = ZRUOG",
+    "summary": "For C3: decrypt by shifting each letter 3 places backward in the alphabet (A wraps to Z).",
+    "expected": "WORLD",
+    "answers": ["WORLD", "world"]
+  },
+  {
+    "id": 10,
+    "title": "10. THE AUTHENTICATION SEQUENCE",
+    "prompt": "A security system requires a six-digit authentication code.\n\nThe following values are provided:\n\nA = 5\nB = 8\nC = 3\nD = 2\nE = 4\nF = 1\n\nGenerate the valid six-digit authentication code.",
+    "code": "A = 5\nB = 8\nC = 3\nD = 2\nE = 4\nF = 1",
+    "summary": "Digits in exact order: (A+C) last digit; |B-D|; (E*F) last digit; A+F; C+E; B-F.",
+    "expected": "864677",
+    "answers": ["864677"]
+  },
+  {
+    "id": 11,
+    "title": "11. THE LOOP THAT NEVER ENDS",
+    "prompt": "Execute the following pseudocode exactly and report the values printed.",
+    "code": "x = 3\ncount = 0\n\nwhile x < 40:\n    x = x * 2\n    count = count + 1\n\nprint(x, count)",
+    "summary": "Execute the while loop strictly from top to bottom. Report printed x and count.",
+    "expected": "48, 4",
+    "answers": ["48, 4", "48,4", "48 4", "(48, 4)", "48 and 4"]
+  },
+  {
+    "id": 12,
+    "title": "12. THE STACK OVERFLOW MYSTERY",
+    "prompt": "A stack receives the following operations:\n\nDetermine the final stack contents from bottom to top.",
+    "code": "PUSH 15\nPUSH 25\nPOP\nPUSH 35\nPUSH 45\nPOP\nPUSH 55\nPUSH 65\nPOP",
+    "summary": "LIFO stack: PUSH adds to top, POP removes from top. Report bottom to top.",
+    "expected": "15, 35, 55",
+    "answers": ["15, 35, 55", "15,35,55", "15 35 55", "[15, 35, 55]", "[15,35,55]"]
+  },
+  {
+    "id": 13,
+    "title": "13. THE DEADLOCK SEQUENCE",
+    "prompt": "Three processes are requesting resources.\n\nP1 holds R1 and needs R3.\nP2 holds R2 and needs R1.\nP3 holds R3 and needs R2.\n\nNo resources are initially available.\n\nDetermine whether the system is deadlocked.\nIf a deadlock exists, apply the recovery procedure and report the completion order of the remaining processes.",
+    "code": "P1 holds R1 and needs R3.\nP2 holds R2 and needs R1.\nP3 holds R3 and needs R2.\nNo resources available.",
+    "summary": "Terminate process with lowest number (P1). Released resources satisfy waiting processes.",
+    "expected": "P2, P3",
+    "answers": ["P2, P3", "P2,P3", "P2 then P3", "P2 P3", "Deadlock: Yes, Order: P2, P3", "Deadlock: Yes, P2, P3", "Deadlock, P2, P3", "Yes, P2, P3"]
+  },
+  {
+    "id": 14,
+    "title": "14. THE DATABASE DETECTIVE",
+    "prompt": "A database contains the following records:\n\nExecute the following SQL query and report the resulting Name column in order.",
+    "code": "ID  | Name | Score\n101 | A    | 82\n102 | B    | 68\n103 | C    | 91\n104 | D    | 74\n105 | E    | 88\n\nSELECT Name\nFROM Students\nWHERE Score > 75\nORDER BY Score DESC;",
+    "summary": "Filter Score > 75 strictly. Sort descending by score. Display Name column.",
+    "expected": "C, E, A",
+    "answers": ["C, E, A", "C,E,A", "C E A", "[C, E, A]", "[C,E,A]"]
+  },
+  {
+    "id": 15,
+    "title": "15. THE CACHE REPLACEMENT MYSTERY",
+    "prompt": "A cache has three available slots.\n\nThe following memory requests arrive:\n\nB, C, A, B, D, C, E\n\nUsing the cache replacement protocol, determine the final cache contents.\nReport the contents from least recently used to most recently used.",
+    "code": "Requests: B, C, A, B, D, C, E\nSlots: 3\nProtocol: LRU",
+    "summary": "On hit mark accessed as MRU. On miss when full, evict LRU. Report oldest to newest.",
+    "expected": "D, C, E",
+    "answers": ["D, C, E", "D,C,E", "D C E", "[D, C, E]", "[D,C,E]"]
+  },
+  {
+    "id": 16,
+    "title": "16. THE AI CLASSIFICATION TRAP",
+    "prompt": "An AI model receives the following features:\n\nCalculate the final score and determine the classification.",
+    "code": "Temperature = 22\nHumidity = 35\nRainfall = 8\nPROFILE = RISK-3\n\nScore = (Temperature × 2) + (Humidity × 1) - (Rainfall × 3)",
+    "summary": "RISK-3 bands: below 50 = LOW; 50 through 70 inclusive = MODERATE; above 70 = HIGH.",
+    "expected": "55, MODERATE",
+    "answers": ["55, MODERATE", "55,MODERATE", "55 MODERATE", "Score = 55, MODERATE", "MODERATE", "55, Moderate", "Score: 55, MODERATE"]
+  },
+  {
+    "id": 17,
+    "title": "17. THE NEAREST NEIGHBOUR",
+    "prompt": "An AI system must classify a new object:\n\nX = (3,3)\n\nUse the three nearest neighbours to determine the class of X.",
+    "code": "X = (3,3)\n\nTraining dataset:\nA = (1,1), RED\nB = (3,2), RED\nC = (2,4), RED\nD = (5,5), BLUE\nE = (4,3), BLUE",
+    "summary": "Calculate Euclidean distances. Select 3 smallest distances. Majority vote decides class.",
+    "expected": "RED",
+    "answers": ["RED", "Red", "red"]
+  },
+  {
+    "id": 18,
+    "title": "18. THE NEURAL NETWORK BLACK BOX",
+    "prompt": "A neural network receives two inputs:\n\nCalculate the final output of the network.",
+    "code": "Inputs: X1 = 0, X2 = 1\nWeights:\nX1 → H1 = 3\nX2 → H1 = 1\nX1 → H2 = 2\nX2 → H2 = 2\nH1 → O = 1\nH2 → O = 1",
+    "summary": "Threshold: sum >= 2 gives 1; otherwise 0. Calculate hidden activations then output activation.",
+    "expected": "0",
+    "answers": ["0"]
+  },
+  {
+    "id": 19,
+    "title": "19. THE ROBOT WITH A BROKEN COMPASS",
+    "prompt": "A robot begins at coordinate (0,0), facing North.\n\nIt receives the following commands:\n\nF, F, R, F, F, F, R, F, L, F\n\nDetermine its final coordinates and direction.",
+    "code": "Start: (0,0), facing North\nCommands: F, F, R, F, F, F, R, F, L, F\n(North=+Y, East=+X, South=-Y, West=-X)",
+    "summary": "F moves 1 unit in facing direction. R turns 90° clockwise. L turns 90° anticlockwise.",
+    "expected": "(4,1), East",
+    "answers": ["(4,1), East", "(4, 1), East", "(4,1), EAST", "4, 1, East", "4,1,East", "(4,1) East", "(4, 1) East", "(4,1), facing East", "(4, 1), facing East", "4, 1, E", "(4,1), E"]
+  },
+  {
+    "id": 20,
+    "title": "20. THE ALGORITHM THAT LIES",
+    "prompt": "A machine receives the following array:\n\nExecute the algorithm exactly as written and report the final array.",
+    "code": "A = [7, 2, 9, 4, 5]\n\nfor i in range(len(A)):\n    for j in range(i + 1, len(A)):\n        if A[i] < A[j]:\n            A[i], A[j] = A[j], A[i]\n\nprint(A)",
+    "summary": "Trace the nested loop swapping whenever A[i] < A[j]. Every swap takes effect immediately.",
+    "expected": "[9, 7, 5, 4, 2]",
+    "answers": ["[9, 7, 5, 4, 2]", "[9,7,5,4,2]", "9, 7, 5, 4, 2", "9,7,5,4,2", "9 7 5 4 2"]
+  }
+]
