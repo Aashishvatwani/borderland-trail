@@ -8,7 +8,7 @@
     "start": "node server.mjs"
   },
   "dependencies": {
-    "mongodb": "^6.16.0",
+    "mongodb": "^6.22.0",
     "vercel": "^59.16.0"
   }
 }
