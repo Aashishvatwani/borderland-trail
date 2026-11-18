@@ -1,5 +1,31 @@
 [
   {
+    "id": "team-1794971304270",
+    "name": "sdsds",
+    "endpoint1Questions": [
+      13,
+      9
+    ],
+    "endpoint1Solved": [],
+    "endpoint1Completed": false,
+    "gridCheckpoint": 0,
+    "gridCompleted": false,
+    "createdAt": "2026-11-18T03:08:24.270Z"
+  },
+  {
+    "id": "team-1794971203333",
+    "name": "kdosk",
+    "endpoint1Questions": [
+      16,
+      6
+    ],
+    "endpoint1Solved": [],
+    "endpoint1Completed": false,
+    "gridCheckpoint": 0,
+    "gridCompleted": false,
+    "createdAt": "2026-11-18T03:06:43.333Z"
+  },
+  {
     "id": "demo-001",
     "name": "The Wildcards",
     "createdAt": "2026-09-12T15:30:00.000Z",

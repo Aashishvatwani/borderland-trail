@@ -2,85 +2,131 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#08080a" />
-  <meta name="description" content="NISB Borderland Trail — Multi-Round Team Challenge across logic, trust, physical waypoints, and memory." />
-  <title>Borderland Trail — NISB Multi-Round Challenge</title>
+  <meta name="description" content="NISB Borderland Trail — Dual Endpoint Challenge: Technical Puzzles & Memory Grid Arena." />
+  <title>Borderland Trail — Technical Arena</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♣</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Manrope:wght@300;400;500;600;700;800&family=Permanent+Marker&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=paradox_v13" />
+  <link rel="stylesheet" href="styles.css?v=v7_nisb_final" />
 </head>
 <body>
-  <!-- Leonardo.ai Ambient Background Lighting -->
+  <!-- Ambient Background Lighting -->
   <div class="leo-bg-lights" aria-hidden="true">
     <div class="leo-light-orb orb-1"></div>
     <div class="leo-light-orb orb-2"></div>
     <div class="leo-light-orb orb-3"></div>
   </div>
 
-  <!-- Ambient & Noise Texture -->
+  <!-- Ambient Texture & Cursor -->
   <div class="noise-overlay" aria-hidden="true"></div>
   <div class="cursor-ambient" id="cursorAmbient" aria-hidden="true"></div>
 
-  <!-- Mario Roudil Style Page Transition Curtain -->
+  <!-- Page Transition Curtain -->
   <div id="pageCurtain" class="transition-curtain" aria-hidden="true">
     <div class="curtain-slat"></div>
     <div class="curtain-slat"></div>
     <div class="curtain-slat"></div>
     <div class="curtain-slat"></div>
     <div class="curtain-content">
-      <div class="curtain-suit" id="curtainSuit">♦</div>
-      <div class="curtain-title" id="curtainTitle">THE EXIT CODE</div>
-      <div class="curtain-tag" id="curtainTag">PHASE 01 · MATHEMATICS & LOGIC</div>
+      <div class="curtain-suit" id="curtainSuit">♣</div>
+      <div class="curtain-title" id="curtainTitle">BORDERLAND TRAILS</div>
+      <div class="curtain-tag" id="curtainTag">QR ACCESS PROTOCOL</div>
     </div>
   </div>
 
-  <!-- Global Header Navigation -->
+  <!-- Global Header: Navigation Links Removed, Only Brand & Audio Remaining -->
   <header class="top-nav">
-    <a href="#/" class="brand-mark" data-nav>
-      
+    <div class="brand-mark">
       <img src="./nisb-logo.jpeg" alt="NISB Logo" class="nisb-logo">
-      <small style="color:var(--text-dim); font-size:0.75rem; margin-left:4px;">NISB</small>
-    </a>
-
-    <nav class="nav-links">
-      <a href="#/" class="nav-item" data-route="home" data-nav>Overview</a>
-      <a href="#/formation" class="nav-item" data-route="formation" data-nav>Formation</a>
-      <a href="#/card-hunt" class="nav-item" data-route="card-hunt" data-nav>Card Hunt</a>
-      <a href="#/diamonds" class="nav-item" data-route="diamonds" data-nav style="color:var(--diamond);">♦ Diamonds</a>
-      <a href="#/hearts" class="nav-item" data-route="hearts" data-nav style="color:var(--heart);">♥ Hearts</a>
-      <a href="#/spades" class="nav-item" data-route="spades" data-nav style="color:var(--spade);">♠ Spades</a>
-      <a href="#/clubs" class="nav-item" data-route="clubs" data-nav style="color:var(--club);">♣ Clubs</a>
-      <a href="#/joker" class="nav-item" data-route="joker" data-nav style="color:var(--joker);">🃏 Joker</a>
-    </nav>
+      <div class="brand-text">
+        <span class="brand-title">BORDERLAND TRAILS</span>
+      </div>
+    </div>
 
     <div class="nav-actions">
+      <!-- Active Team Pill -->
+      <div class="nav-team-pill" id="navTeamPill" style="display:none;">
+        <span class="team-dot"></span>
+        <span class="team-label" id="navTeamName">Team Name</span>
+      </div>
+
       <button type="button" class="btn-audio" id="btnAudio" aria-label="Toggle procedural sound synthesis">
         <span id="audioIcon">🔈</span> <span id="audioText">FX OFF</span>
       </button>
-      <a href="#/formation" class="btn-enter-trail" data-nav>
-        ENTER TRAIL <span>↗</span>
-      </a>
-      <button type="button" class="btn-mobile-menu" id="btnMobileMenu" aria-label="Toggle navigation menu" aria-expanded="false">
-        <span class="menu-bar"></span>
-        <span class="menu-bar"></span>
-        <span class="menu-bar"></span>
-      </button>
     </div>
   </header>
-  <div id="navMobileOverlay" class="nav-mobile-overlay" aria-hidden="true"></div>
 
   <!-- Dynamic Page Mount -->
   <main id="pageRoot" role="main" tabindex="-1">
     <!-- Rendered dynamically by app.js -->
   </main>
 
-  <!-- Level Guard Toast Notification -->
+  <!-- Level / System Toast Notification -->
   <div id="levelToast" class="level-toast" role="alert" aria-live="assertive">
-    <span>🔒</span> <span id="toastMsg">LEVEL LOCKED: Complete previous round first!</span>
+    <span id="toastIcon">🔔</span> <span id="toastMsg">Notification message</span>
   </div>
 
-  <script src="app.js?v=paradox_v14"></script>
+  <!-- Manual PDF & Rules Modal -->
+  <div id="manualModal" class="cyber-modal" aria-hidden="true">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-badge">DOCUMENT ARCHIVE</span>
+          <h2 class="modal-title">Borderland Trails Technical Puzzle Manual</h2>
+        </div>
+        <button type="button" class="modal-close" id="btnCloseManual">&times;</button>
+      </div>
+      <div class="modal-body" id="manualModalBody">
+        <!-- Injected via JavaScript -->
+      </div>
+      <div class="modal-footer">
+        <a href="./Borderland_Trails_NISB_Final.pdf" download="Borderland_Trails_NISB_Final.pdf" class="cyber-btn btn-primary">
+          📥 DOWNLOAD OFFICIAL PDF
+        </a>
+        <button type="button" class="cyber-btn" id="btnDismissManual">CLOSE VIEWER</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkpoint Recalibration Mini Memory Game Modal -->
+  <div id="recalModal" class="cyber-modal recal-modal" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog recal-dialog">
+      <div class="modal-header recal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-badge" style="color:var(--heart); border-color:var(--heart);">SECURITY BREACH DETECTED</span>
+          <h2 class="modal-title" style="color:#fff;">CHECKPOINT RECALIBRATION</h2>
+        </div>
+      </div>
+      <div class="modal-body recal-body">
+        <p class="recal-instruction" id="recalInstruction">
+          Safe path disrupted! Complete the neural memory sequence to re-energize your checkpoint and resume navigation.
+        </p>
+
+        <div class="simon-game-box">
+          <div class="simon-status" id="simonStatus">PREPARING SEQUENCE...</div>
+          <div class="simon-grid">
+            <button type="button" class="simon-pad pad-cyan" data-pad="0" aria-label="Cyan Pad"></button>
+            <button type="button" class="simon-pad pad-amber" data-pad="1" aria-label="Amber Pad"></button>
+            <button type="button" class="simon-pad pad-emerald" data-pad="2" aria-label="Emerald Pad"></button>
+            <button type="button" class="simon-pad pad-magenta" data-pad="3" aria-label="Magenta Pad"></button>
+          </div>
+          <div class="simon-progress" id="simonProgress">Step 0 / 3</div>
+        </div>
+      </div>
+      <div class="modal-footer recal-footer">
+        <button type="button" class="cyber-btn" id="btnReplaySimon" style="font-size:0.8rem;">🔄 REPLAY PATTERN</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Code Script (Offline & Instant) -->
+  <script src="qrcode.js"></script>
+  <!-- Main Application Script -->
+  <script src="app.js?v=v7_nisb_final"></script>
 </body>
 </html>
